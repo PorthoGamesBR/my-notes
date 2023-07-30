@@ -12,12 +12,15 @@ function App() {
 
   return (
     <div className="App">
-      <TextInput onSend={onNewNoteSubmit}/>
-      
+      <div>
+        <h2>New Note</h2>
+        <TextInput onSend={onNewNoteSubmit}/>
+      </div>
+
       {notes.map((n, index) => {
         return <Note key={index} noteData={{text:n}}/>
       })}
-      
+
     </div>
   );
 }
