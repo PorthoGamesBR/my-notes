@@ -13,9 +13,11 @@ function App() {
   return (
     <div className="App">
       <TextInput onSend={onNewNoteSubmit}/>
-      {notes.map((n) => {
-        return <Note noteData={{text:n}}/>
+      
+      {notes.map((n, index) => {
+        return <Note key={index} noteData={{text:n}}/>
       })}
+      
     </div>
   );
 }
