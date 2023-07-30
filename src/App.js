@@ -1,4 +1,5 @@
 import TextInput from './components/TextInput';
+import Note from './components/Note/Note';
 import {useState} from "react"
 import './App.css';
 
@@ -13,7 +14,7 @@ function App() {
     <div className="App">
       <TextInput onSend={onNewNoteSubmit}/>
       {notes.map((n) => {
-        return <p>{n}</p>
+        return <Note noteData={{text:n}}/>
       })}
     </div>
   );
