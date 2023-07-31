@@ -18,45 +18,50 @@ The app allows the user to create simple text notes, edit and delete them. Reorg
 
 ### 1.1 Pre requirements
 For you to run this repo, you need at least:
-    - The most recent version of `node.js` installed on your machine
+- The most recent version of `node.js` installed on your machine
 
 ## 2. Objectives
 ⚠ = Essential
 ### Content
-    - [x] ⚠ Show All Notes
-    - [] Show Rules
-    - [] Show Title
+- [x] ⚠ Show All Notes
+- [ ] Show Rules
+- [ ] Show Title
 ### Note Editing
-    - [x] ⚠ Create Note
-    - [x] Edit Note
-    - [x] ⚠ Delete Note
+- [x] ⚠ Create Note
+- [x] Edit Note
+- [x] ⚠ Delete Note
 ### Interactivity
-    - [x] Button to Create Notes
-    - [x] Edit notes by clicking them
-    - [x] Button to Delete Notes
-    - [] Reorganize note order with arrow button/areas
+- [x] Button to Create Notes
+- [x] Edit notes by clicking them
+- [x] Button to Delete Notes
+- [ ] Reorganize note order with arrow button/areas
 ### Layout
-    - [] Layout Elements (Vertical and Horizontal containers)
-    - [] Note Elements (Header, Body and Container)
-    - [] Rule List Elements (Text List)
-    - [] Website Banner Elements (Title)
-    - [] Interactivity Elements (Floating Circle container)
-    - [] Note list to the left
-    - [] Note Style (Like post it notes)
-    - [] Rules to the Right
-    - [] Fonts and Colors
-    - [] ⚠ Mobile Layout
-    - [] Responsive Cursors
+- [ ] Layout Elements (Vertical and Horizontal containers)
+- [ ] Note Elements (Header, Body and Container)
+- [ ] Rule List Elements (Text List)
+- [ ] Website Banner Elements (Title)
+- [ ] Interactivity Elements (Floating Circle container)
+- [ ] Note list to the left
+- [ ] Note Style (Like post it notes)
+- [ ] Rules to the Right
+- [ ] Fonts and Colors
+- [ ] ⚠ Mobile Layout
+- [ ] Responsive Cursors
 
 ## 3. Installing
 To install this app to test or develop, you need to clone this repository.
 
-    If you just want to use the app, clone it right away: `git clone`
+If you just want to use the app, clone it right away: 
 
-    If you want to develop/contribute, do a fork first
-    [Image of Fork on Github]()
-    Then do the clone on your personal repo
-    `git clone`
+`git clone https://github.com/PorthoGamesBR/my-notes.git`
+
+If you want to develop/contribute, do a fork firs
+
+<img src="https://docs.github.com/assets/cb-79331/mw-1440/images/help/repository/fork_button.webp" alt="Image of Fork on Github">
+
+Then do the clone on your personal repo
+
+`git clone https://github.com/PorthoGamesBR/my-notes.git`
 
 ## 4. Deploy
 For development purposes,in the project directory, you can run:
@@ -83,8 +88,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## 5. Using
 
 No secret sauce here: 
-    - Click the pencil icon and a new note should appear
-    - Click the note text to edit it, press enter to save and shift+enter to add a line break
-    - Click the red X button to delete a note
+- Click the pencil icon and a new note should appear
+- Click the note text to edit it, press enter to save and shift+enter to add a line break
+- Click the red X button to delete a note
 
-    For now, that´s all.
+For now, that´s all.
