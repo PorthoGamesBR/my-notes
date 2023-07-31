@@ -23,10 +23,18 @@ function useNoteList() {
     }
 
     function deleteNote(id) {
-        setLs(ls.filter((n) => n.id != id));
+        setLs(ls.filter((n) => n.id !== id));
     }
 
-    return [ls,  addNote, deleteNote]
+    function editNote(id, text) {
+        const newList = ls.map((n) => {
+            if (n.id === id) return createNote(id, text)
+            return n;
+        });
+        setLs(newList);        
+    }
+
+    return [ls,  addNote, deleteNote, editNote]
 }
 
 export default useNoteList;
