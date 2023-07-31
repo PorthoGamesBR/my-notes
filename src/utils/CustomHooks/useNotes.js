@@ -13,7 +13,7 @@ function getLastNoteId(notes) {
 }
 
 function useNoteList() {
-    [ls, setLs] = useState([]);
+    const [ls, setLs] = useState([]);
     // Load data
     //useEffect(() => {setLs([createNote(0, "First Note")])},[])
 
