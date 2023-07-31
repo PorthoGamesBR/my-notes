@@ -1,70 +1,90 @@
-# Getting Started with Create React App
+# My Notes App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> WebApp to organize text notes in a visual interface, similar to a notebook/whiteboard
 
-## Available Scripts
+## Index
+    
+1. [Introduction](#1-introduction)
+2. [Objectives](#2-objectives)
+3. [Installing](#3-installing)
+4. [Deploy](#4-deploy)
+5. [Usage](#5-using)
 
-In the project directory, you can run:
+## 1. Introduction
 
-### `npm start`
+This repository contains the code for the front end of a note taking app (Possibly the backend in the future too).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The app allows the user to create simple text notes, edit and delete them. Reorganizing notes should be a breeze.
+
+### 1.1 Pre requirements
+For you to run this repo, you need at least:
+    - The most recent version of `node.js` installed on your machine
+
+## 2. Objectives
+⚠ = Essential
+### Content
+    - [x] ⚠ Show All Notes
+    - [] Show Rules
+    - [] Show Title
+### Note Editing
+    - [x] ⚠ Create Note
+    - [x] Edit Note
+    - [x] ⚠ Delete Note
+### Interactivity
+    - [x] Button to Create Notes
+    - [x] Edit notes by clicking them
+    - [x] Button to Delete Notes
+    - [] Reorganize note order with arrow button/areas
+### Layout
+    - [] Layout Elements (Vertical and Horizontal containers)
+    - [] Note Elements (Header, Body and Container)
+    - [] Rule List Elements (Text List)
+    - [] Website Banner Elements (Title)
+    - [] Interactivity Elements (Floating Circle container)
+    - [] Note list to the left
+    - [] Note Style (Like post it notes)
+    - [] Rules to the Right
+    - [] Fonts and Colors
+    - [] ⚠ Mobile Layout
+    - [] Responsive Cursors
+
+## 3. Installing
+To install this app to test or develop, you need to clone this repository.
+
+    If you just want to use the app, clone it right away: `git clone`
+
+    If you want to develop/contribute, do a fork first
+    [Image of Fork on Github]()
+    Then do the clone on your personal repo
+    `git clone`
+
+## 4. Deploy
+For development purposes,in the project directory, you can run:
+    `npm start`
+That runs the app in the development mode in [http://localhost:3000](http://localhost:3000).
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
+For testing purposes, in the project directory, you can run:
+`npm test`
+That launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
+When building for deployment on the server, run:
+`npm run build`
+That builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
-
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## 5. Using
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+No secret sauce here: 
+    - Click the pencil icon and a new note should appear
+    - Click the note text to edit it, press enter to save and shift+enter to add a line break
+    - Click the red X button to delete a note
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    For now, that´s all.
