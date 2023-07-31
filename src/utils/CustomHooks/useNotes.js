@@ -18,7 +18,7 @@ function useNoteList() {
     //useEffect(() => {setLs([createNote(0, "First Note")])},[])
 
     function addNote(text) {
-        const lnid = getLastNoteId(ls);
+        const lnid = getLastNoteId(ls)+1;
         setLs([...ls, createNote(lnid, text)]);
     }
 
