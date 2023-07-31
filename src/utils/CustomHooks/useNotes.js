@@ -22,7 +22,11 @@ function useNoteList() {
         setLs([...ls, createNote(lnid, text)]);
     }
 
-    return [ls,  addNote]
+    function deleteNote(id) {
+        setLs(ls.filter((n) => n.id != id));
+    }
+
+    return [ls,  addNote, deleteNote]
 }
 
 export default useNoteList;
