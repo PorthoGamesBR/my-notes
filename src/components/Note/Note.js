@@ -1,6 +1,8 @@
 import React from "react"
 import "./Note.css"
 
+import TextArea from "../TextArea"
+
 function Note({noteData}) {
     const {text} = noteData;
     return (

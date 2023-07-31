@@ -1,6 +1,7 @@
 import TextInput from './components/TextInput';
 import Note from './components/Note/Note';
 import IconButton from './components/IconButton'
+import TextArea from './components/TextArea';
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
