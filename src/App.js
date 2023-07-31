@@ -1,5 +1,6 @@
 import TextInput from './components/TextInput';
 import Note from './components/Note/Note';
+import IconButton from './components/IconButton'
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
@@ -12,7 +13,7 @@ function App() {
     <div className="App">
       <div>
         <h2>New Note</h2>
-        <TextInput onSend={addNote}/>
+        <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       </div>
 
       {notes.map((n, index) => {
