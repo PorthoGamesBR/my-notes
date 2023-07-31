@@ -16,8 +16,8 @@ function App() {
         <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
 
       </div>
-      {notes.map((n, index) => {
-        return <Note key={index} noteData={n}/>
+      {notes.map((n) => {
+        return <Note key={n.id} noteData={n} onEdit={editNote}/>
       })}
 
     </div>
