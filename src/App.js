@@ -7,13 +7,14 @@ import useNoteList from './utils/CustomHooks/useNotes';
 import './App.css';
 
 function App() {
-  const [notes, addNote] = useNoteList();
+  const [notes, addNote, removeNote, editNote] = useNoteList();
 
   return (
     <div className="App">
       <div>
         <h2>New Note</h2>
         <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
+
       </div>
 
       {notes.map((n, index) => {
