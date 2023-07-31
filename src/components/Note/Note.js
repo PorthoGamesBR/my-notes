@@ -3,11 +3,11 @@ import "./Note.css"
 
 import TextArea from "../TextArea"
 
-function Note({noteData}) {
-    const {text} = noteData;
+function Note({noteData, onEdit}) {
+    const {id, text} = noteData;
     return (
         <div className="note">
-            <p>{text}</p>
+            <TextArea initValue={text} onSubmit={(t) => onEdit(id, t)} />
         </div>
     );
 }
