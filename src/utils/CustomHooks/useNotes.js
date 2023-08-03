@@ -6,6 +6,7 @@ function createNote(id,text) {
     return {id:id, text:text}
 }
 
+
 function getLastNoteId(notes) {
     let lnid = 0;
     for(const n of notes) {
@@ -19,7 +20,16 @@ function useNoteList() {
     const url = source_url + data_path
     const [ls, setLs] = useState([]);
     // Load data
-    //useEffect(() => {setLs([createNote(0, "First Note")])},[])
+    useEffect(() => {
+        fetch(url)
+         .then(response => {
+            return response.json()
+         })
+         .then(data => {
+            setLs(data)
+         })
+         .catch(error => console.log(error))
+        },[])
 
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
