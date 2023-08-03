@@ -1,4 +1,6 @@
 import {useState, useEffect} from "react"
+// NOTE: Need to change once database becomes local
+const source_url = "http://127.0.0.1:5000"
 
 function createNote(id,text) {
     return {id:id, text:text}
@@ -13,6 +15,8 @@ function getLastNoteId(notes) {
 }
 
 function useNoteList() {
+    const data_path = "/api/notes"
+    const url = source_url + data_path
     const [ls, setLs] = useState([]);
     // Load data
     //useEffect(() => {setLs([createNote(0, "First Note")])},[])
