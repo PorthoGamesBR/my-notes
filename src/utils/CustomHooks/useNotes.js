@@ -1,7 +1,30 @@
 import {useState, useEffect} from "react"
+// NOTE: Need to change once database becomes local
+const source_url = "http://127.0.0.1:5000"
 
 function createNote(id,text) {
     return {id:id, text:text}
+}
+
+function isNote(obj) {
+    // Checks if obj contains the data to be considered a note, return true if it is and false + error message if is not;
+    let [isNote, message] = [true, ""];
+
+    if (!("id" in obj) || !("text" in obj)) 
+    {
+        message="Not found Id or Text inside object. Is not a note"
+        isNote=false
+    }
+    else if (!Number.isInteger(obj.id))
+    {
+        message="Id isn't numeric. Is not a note"
+        isNote=false
+    }
+    else if(!typeof obj.text === 'string') {
+        message="Text isnt a pure string. Is not a note"
+        isNote=false
+    }
+    return [isNote, message]
 }
 
 function getLastNoteId(notes) {
@@ -13,9 +36,24 @@ function getLastNoteId(notes) {
 }
 
 function useNoteList() {
+    const data_path = "/api/notes"
+    const url = source_url + data_path
     const [ls, setLs] = useState([]);
     // Load data
-    //useEffect(() => {setLs([createNote(0, "First Note")])},[])
+    useEffect(() => {
+        fetch(url)
+         .then(response => {
+            return response.json()
+         })
+         .then(data => {
+            for(const d of data) {
+                const [isnote, err] = isNote(d);
+                if (!isnote) throw new Error(err);    
+            }
+            setLs(data);
+         })
+         .catch(error => console.log(error))
+        },[])
 
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
