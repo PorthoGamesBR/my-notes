@@ -2,8 +2,7 @@ import TextInput from './components/TextInput';
 import Note from './components/Note/Note';
 import IconButton from './components/IconButton'
 import NoteHeader from './components/Note/NoteHeader'
-import LineContainer from './components/Containers/LineContainer';
-import ColumnContainer from './components/Containers/ColumnContainer';
+import FlexContainer from './components/Containers/FlexContainer';
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
@@ -19,8 +18,8 @@ function App() {
         <h2>New Note</h2>
         <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       </div>
-      <LineContainer>      
-        <ColumnContainer>
+      <FlexContainer className={"full-width jc-space-around"}>      
+        <FlexContainer column={true} className={"grow-1"}>
           {notes.map((n) => {
             return (
             <div key={n.id}>
@@ -28,11 +27,11 @@ function App() {
               <Note noteData={n} onEdit={editNote}/>
             </div>)
           })}
-        </ColumnContainer>
-        <ColumnContainer>
+        </FlexContainer>
+        <FlexContainer column={true} className={"grow-1"}>
         {/* Add the rule list here */}
-        </ColumnContainer>
-      </LineContainer>
+        </FlexContainer>
+      </FlexContainer>
     </div>
   );
 }
