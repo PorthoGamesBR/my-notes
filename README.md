@@ -36,12 +36,12 @@ For you to run this repo, you need at least:
 - [x] Button to Delete Notes
 - [ ] Reorganize note order with arrow button/areas
 ### Layout
-- [ ] Layout Elements (Vertical and Horizontal containers)
+- [x] Layout Elements (Vertical and Horizontal containers)
 - [ ] Note Elements (Header, Body and Container)
 - [ ] Rule List Elements (Text List)
 - [ ] Website Banner Elements (Title)
 - [ ] Interactivity Elements (Floating Circle container)
-- [ ] Note list to the left
+- [x] Note list to the left
 - [ ] Note Style (Like post it notes)
 - [ ] Rules to the Right
 - [ ] Fonts and Colors
