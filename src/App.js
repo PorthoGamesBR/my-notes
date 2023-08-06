@@ -32,17 +32,23 @@ function App() {
         <FlexContainer column={true} className={"grow-1"}>
         {/* Add the rule list here */}
         <h2>Rule List</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis euismod dolor sed dapibus ornare. Suspendisse mollis nibh vitae nisl efficitur, ut facilisis orci consectetur. Nunc nec accumsan metus, id dapibus ante. In hac habitasse platea dictumst. Nullam iaculis congue dolor, a bibendum eros feugiat vitae. Ut malesuada est sed enim eleifend sollicitudin. Aenean cursus lectus eget neque semper, in placerat lectus sagittis. Aenean cursus convallis viverra.
-
-          <ul>
-            <li>Lorem ipsum dolor sit amet, consectetur  adipiscing elit.</li>
-            <li>Quisque commodo arcu finibus eros malesuada lobortis.</li>
-            <li>Maecenas feugiat enim ac est suscipit, non vehicula erat laoreet.</li>
-            <li>Morbi iaculis tortor in libero placerat, vel maximus augue vestibulum.</li>
-            <li>Nullam pulvinar purus ac risus mollis vestibulum.</li>
-          </ul>
+        <p>
+          This system is made for organization. This means that the system itself cannot be unorganized, which would make the whole point of organizing nullified. 
         </p>
+        <p>
+          So there are some rules for the system to work properly. It's not a lot, but they are here. And feel free to change them for your own needs
+        </p>
+          
+        <ul style={{"textAlign":"start"}}>
+          <li>Work notes need to have a finish date, and they need to be removed after that finish date.</li>
+          <li>If a note is actively being ignored, remove it.</li>
+          <li>If you have a motive to ignore it, like you are waiting for something before doing that note, then explain it at the start between {"()"}</li>
+          <li>If a note is being jumped over, send it to the end of the list</li>
+          <li>Review notes often, as often as you create new ones, so you remove the ones clustering.</li>
+          
+        </ul>
         
+
         </FlexContainer>
       </FlexContainer>
     </div>
