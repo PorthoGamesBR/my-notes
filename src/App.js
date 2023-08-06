@@ -31,7 +31,18 @@ function App() {
         </FlexContainer>
         <FlexContainer column={true} className={"grow-1"}>
         {/* Add the rule list here */}
-        <h2></h2>
+        <h2>Rule List</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis euismod dolor sed dapibus ornare. Suspendisse mollis nibh vitae nisl efficitur, ut facilisis orci consectetur. Nunc nec accumsan metus, id dapibus ante. In hac habitasse platea dictumst. Nullam iaculis congue dolor, a bibendum eros feugiat vitae. Ut malesuada est sed enim eleifend sollicitudin. Aenean cursus lectus eget neque semper, in placerat lectus sagittis. Aenean cursus convallis viverra.
+
+          <ul>
+            <li>Lorem ipsum dolor sit amet, consectetur  adipiscing elit.</li>
+            <li>Quisque commodo arcu finibus eros malesuada lobortis.</li>
+            <li>Maecenas feugiat enim ac est suscipit, non vehicula erat laoreet.</li>
+            <li>Morbi iaculis tortor in libero placerat, vel maximus augue vestibulum.</li>
+            <li>Nullam pulvinar purus ac risus mollis vestibulum.</li>
+          </ul>
+        </p>
+        
         </FlexContainer>
       </FlexContainer>
     </div>
