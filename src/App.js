@@ -20,16 +20,18 @@ function App() {
       </div>
       <FlexContainer className={"full-width jc-space-around"}>      
         <FlexContainer column={true} className={"grow-1"}>
+          {notes.length < 1 ? <p>No notes to render. Try creating a new one!</p> : (<>
           {notes.map((n) => {
             return (
             <div key={n.id}>
               <NoteHeader onXClick={() => removeNote(n.id)} /> 
               <Note noteData={n} onEdit={editNote}/>
             </div>)
-          })}
+          })}</>)}
         </FlexContainer>
         <FlexContainer column={true} className={"grow-1"}>
         {/* Add the rule list here */}
+        <h2></h2>
         </FlexContainer>
       </FlexContainer>
     </div>
