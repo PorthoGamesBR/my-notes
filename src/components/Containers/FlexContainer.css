@@ -1,0 +1,19 @@
+.flexbox {
+    display: flex;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.full-width {
+    width: 100vw;
+}
+
+.jc-space-around {
+    justify-content: space-around;
+}
+
+.grow-1 {
+    flex-grow: 1;
+}
