@@ -1,7 +1,8 @@
 import TextInput from './components/TextInput';
+import NoteContainer from './components/Note/NoteContainer';
 import Note from './components/Note/Note';
-import IconButton from './components/IconButton'
 import NoteHeader from './components/Note/NoteHeader'
+import IconButton from './components/IconButton'
 import FlexContainer from './components/Containers/FlexContainer';
 
 import {useState} from "react"
@@ -23,10 +24,10 @@ function App() {
           {notes.length < 1 ? <p>No notes to render. Try creating a new one!</p> : (<>
           {notes.map((n) => {
             return (
-            <div key={n.id}>
+            <NoteContainer key={n.id}>
               <NoteHeader onXClick={() => removeNote(n.id)} /> 
               <Note noteData={n} onEdit={editNote}/>
-            </div>)
+            </NoteContainer>)
           })}</>)}
         </FlexContainer>
         <FlexContainer column={true} className={"grow-1"}>
