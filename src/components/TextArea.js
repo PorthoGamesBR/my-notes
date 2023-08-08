@@ -2,6 +2,7 @@ import {React, useState, useEffect, useRef} from "react"
 
 function TextArea({initValue, onSubmit}){
     const [textInput, setTextInput] = useState("");
+    const [lines, setLines] = useState(2);
     useEffect(()=>{setTextInput(initValue)},[initValue]);
 
     const textAreaElm = useRef();
@@ -13,8 +14,14 @@ function TextArea({initValue, onSubmit}){
         }
     }
 
+    function onKeyUp(e) {
+        // TODO: Get this value dinamicaly by checking the size of this element with a single line
+        setLines(calculateLines(15, calculateHeight()));
+    }
+
     // This function should return the target height for this element
     function calculateHeight() {
+        // TODO: Get this value from a not resized textarea, to get the real scrollHeight (auto shrink)
         return textAreaElm.current.scrollHeight;
     }
 
@@ -26,7 +33,9 @@ function TextArea({initValue, onSubmit}){
 
     return (
         <form>
-            <textarea ref={textAreaElm} onChange={(e) => setTextInput(e.target.value)} value={textInput} onKeyDown={onKeyDown}style={{resize:"none"}}/>
+            <textarea ref={textAreaElm} onChange={(e) => setTextInput(e.target.value)} value={textInput} 
+            rows={lines}
+            onKeyDown={onKeyDown} onKeyUp={onKeyUp} style={{resize:"none"}}/>
             <input type="submit" hidden/>
         </form>
     )
