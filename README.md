@@ -24,7 +24,7 @@ For you to run this repo, you need at least:
 ⚠ = Essential
 ### Content
 - [x] ⚠ Show All Notes
-- [ ] Show Rules
+- [x] Show Rules
 - [ ] Show Title
 ### Note Editing
 - [x] ⚠ Create Note
@@ -38,12 +38,12 @@ For you to run this repo, you need at least:
 ### Layout
 - [x] Layout Elements (Vertical and Horizontal containers)
 - [ ] Note Elements (Header, Body and Container)
-- [ ] Rule List Elements (Text List)
+- [x] Rule List Elements (Text List)
 - [ ] Website Banner Elements (Title)
 - [ ] Interactivity Elements (Floating Circle container)
 - [x] Note list to the left
 - [ ] Note Style (Like post it notes)
-- [ ] Rules to the Right
+- [x] Rules to the Right
 - [ ] Fonts and Colors
 - [ ] ⚠ Mobile Layout
 - [ ] Responsive Cursors

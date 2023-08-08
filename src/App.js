@@ -31,7 +31,25 @@ function App() {
         </FlexContainer>
         <FlexContainer column={true} className={"grow-1"}>
         {/* Add the rule list here */}
-        <h2></h2>
+        <h2>Rule List</h2>
+        <div>
+          <p>
+            This system is made for organization. This means that the system itself cannot be unorganized, which would make the whole point of organizing nullified. 
+          </p>
+          <p>
+            So there are some rules for the system to work properly. It's not a lot, but they are here. And feel free to change them for your own needs
+          </p>
+            
+          <ul style={{"textAlign":"start"}}>
+            <li>Work notes need to have a finish date, and they need to be removed after that finish date.</li>
+            <li>If a note is actively being ignored, remove it.</li>
+            <li>If you have a motive to ignore it, like you are waiting for something before doing that note, then explain it at the start between {"()"}</li>
+            <li>If a note is being jumped over, send it to the end of the list</li>
+            <li>Review notes often, as often as you create new ones, so you remove the ones clustering.</li>
+            
+          </ul>
+        </div>  
+
         </FlexContainer>
       </FlexContainer>
     </div>
