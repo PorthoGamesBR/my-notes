@@ -46,7 +46,7 @@ For you to run this repo, you need at least:
     - [x] Note Background
     - [x] Note Buttons
     - [ ] Note Size
-    - [ ] Note Resize 
+    - [x] Note Resize 
 - [x] Rules to the Right
 - [ ] Fonts and Colors
 - [ ] ⚠ Mobile Layout
