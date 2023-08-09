@@ -36,25 +36,46 @@ function getLastNoteId(notes) {
 }
 
 function useNoteList() {
-    const data_path = "/api/notes"
-    const url = source_url + data_path
     const [ls, setLs] = useState([]);
+    const [connection,setConnection] = useState({successful: false, lastOperation: null});
+
     // Load data
-    useEffect(() => {
+    useEffect(() => {getNotes()},[])
+
+    function getNotes() {
+        const data_path = "/api/notes"
+        const url = source_url + data_path
+        let connectSuccess = false;
         fetch(url)
          .then(response => {
-            return response.json()
-         })
-         .then(data => {
+            if(response.ok){
+                connectSuccess = true; 
+                return response.json()
+            }
+            else {
+                if (response.status === "NO_RESPONSE_CODE") {
+                    // No server
+                    console.log("Failed connection to server")
+                    return Promise.reject(new Error("Server Unavailable"))
+                }
+            }
+        })
+        .then(data => {
             for(const d of data) {
                 const [isnote, err] = isNote(d);
-                if (!isnote) throw new Error(err);    
+                if (!isnote) return Promise.reject(new Error(err));    
             }
             setLs(data);
-         })
-         .catch(error => console.log(error))
-        },[])
+        })
+        .catch(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
+        }).finally(() => {
+            setConnection({successful:connectSuccess, lastOperation:getNotes});
+        })
 
+    }
+    
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
         setLs([...ls, createNote(lnid, text)]);
@@ -72,7 +93,7 @@ function useNoteList() {
         setLs(newList);        
     }
 
-    return [ls,  addNote, deleteNote, editNote]
+    return [ls,  addNote, deleteNote, editNote, connection]
 }
 
 export default useNoteList;

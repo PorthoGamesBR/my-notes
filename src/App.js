@@ -11,7 +11,7 @@ import useNoteList from './utils/CustomHooks/useNotes';
 import './App.css';
 
 function App() {
-  const [notes, addNote, removeNote, editNote] = useNoteList();
+  const [notes, addNote, removeNote, editNote, connection] = useNoteList();
 
   return (
     <div className="App">
@@ -53,6 +53,12 @@ function App() {
 
         </FlexContainer>
       </FlexContainer>
+
+      {connection.successful ? <></> : (<div>
+        <p>Server not connected, changes are not being saved!</p>
+        <input type="button" value="Reconect" onClick={() => connection.lastOperation()} />
+        </div>
+        )}
     </div>
   );
 }
