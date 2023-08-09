@@ -43,16 +43,23 @@ function useNoteList() {
     useEffect(() => {
         fetch(url)
          .then(response => {
-            return response.json()
-         })
+            if(response.ok) return response.json()
+            else {
+                if (response.status === "NO_RESPONSE_CODE") {
+                    // No server
+                    console.log("Failed connection to server")
+                    return Promise.reject(new Error("Server Unavailable"))
+                }
+            }
+        })
          .then(data => {
             for(const d of data) {
                 const [isnote, err] = isNote(d);
-                if (!isnote) throw new Error(err);    
+                if (!isnote) return Promise.reject(new Error(err));    
             }
             setLs(data);
          })
-         .catch(error => console.log(error))
+         .catch(error => {console.log(error)})
         },[])
 
     function addNote(text) {
