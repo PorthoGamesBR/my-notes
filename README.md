@@ -42,10 +42,10 @@ For you to run this repo, you need at least:
 - [ ] Website Banner Elements (Title)
 - [ ] Interactivity Elements (Floating Circle container)
 - [x] Note list to the left
-- [ ] Note Style (Like post it notes)
+- [x] Note Style (Like post it notes)
     - [x] Note Background
     - [x] Note Buttons
-    - [ ] Note Size
+    - [x] Note Size
     - [x] Note Resize 
 - [x] Rules to the Right
 - [ ] Fonts and Colors
