@@ -39,11 +39,16 @@ function useNoteList() {
     const data_path = "/api/notes"
     const url = source_url + data_path
     const [ls, setLs] = useState([]);
+    const [connection,setConnection] = useState(false);
+    
     // Load data
     useEffect(() => {
         fetch(url)
          .then(response => {
-            if(response.ok) return response.json()
+            if(response.ok){ 
+                setConnection(true);
+                return response.json()
+            }
             else {
                 if (response.status === "NO_RESPONSE_CODE") {
                     // No server
@@ -81,7 +86,7 @@ function useNoteList() {
         setLs(newList);        
     }
 
-    return [ls,  addNote, deleteNote, editNote]
+    return [ls,  addNote, deleteNote, editNote, connection]
 }
 
 export default useNoteList;

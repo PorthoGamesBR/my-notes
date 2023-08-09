@@ -11,7 +11,7 @@ import useNoteList from './utils/CustomHooks/useNotes';
 import './App.css';
 
 function App() {
-  const [notes, addNote, removeNote, editNote] = useNoteList();
+  const [notes, addNote, removeNote, editNote, connection] = useNoteList();
 
   return (
     <div className="App">
