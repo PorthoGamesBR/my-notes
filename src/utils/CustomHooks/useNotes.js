@@ -36,13 +36,15 @@ function getLastNoteId(notes) {
 }
 
 function useNoteList() {
-    const data_path = "/api/notes"
-    const url = source_url + data_path
     const [ls, setLs] = useState([]);
     const [connection,setConnection] = useState(false);
     
     // Load data
-    useEffect(() => {
+    useEffect(() => {getNotes()},[])
+
+    function getNotes() {
+        const data_path = "/api/notes"
+        const url = source_url + data_path
         fetch(url)
          .then(response => {
             if(response.ok){ 
@@ -68,8 +70,7 @@ function useNoteList() {
              console.log(error.toString())
              console.log("Was not able to connect to server")
             })
-             
-        },[])
+    }
 
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
