@@ -37,12 +37,16 @@ For you to run this repo, you need at least:
 - [ ] Reorganize note order with arrow button/areas
 ### Layout
 - [x] Layout Elements (Vertical and Horizontal containers)
-- [ ] Note Elements (Header, Body and Container)
-- [x] Rule List Elements (Text List)
+- [x] Note Elements (Header, Body and Container)
+- [x] Rule List Elements (Text List) main
 - [ ] Website Banner Elements (Title)
 - [ ] Interactivity Elements (Floating Circle container)
 - [x] Note list to the left
-- [ ] Note Style (Like post it notes)
+- [x] Note Style (Like post it notes)
+    - [x] Note Background
+    - [x] Note Buttons
+    - [x] Note Size
+    - [x] Note Resize 
 - [x] Rules to the Right
 - [ ] Fonts and Colors
 - [ ] ⚠ Mobile Layout

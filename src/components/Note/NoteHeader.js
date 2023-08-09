@@ -1,8 +1,10 @@
 import IconButton from "../IconButton"
 
+import "./NoteHeader.css"
+
 function NoteHeader({onXClick}){
     return (
-        <div>
+        <div className="note-header">
             <IconButton icon={"❌"} onClick={onXClick} />
         </div>
     )    

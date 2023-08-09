@@ -1,6 +1,6 @@
 import {React, useState, useEffect, useRef} from "react"
 
-function TextArea({initValue, onSubmit}){
+function TextArea({initValue, onSubmit, style}){
     const [textInput, setTextInput] = useState("");
     useEffect(()=>{setTextInput(initValue)},[initValue]);
 
@@ -26,10 +26,7 @@ function TextArea({initValue, onSubmit}){
 
     return (
         <form>
-            <textarea ref={textAreaElm} onChange={(e) => setTextInput(e.target.value)} value={textInput} 
-            onKeyDown={onKeyDown} 
-            rows="1"
-            style={{resize:"none"}}/>
+            <textarea ref={textAreaElm} onChange={(e) => setTextInput(e.target.value)} value={textInput} onKeyDown={onKeyDown} rows="1" style={{...style, resize:"none"}} />
             <input type="submit" hidden/>
         </form>
     )
