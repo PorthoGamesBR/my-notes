@@ -37,18 +37,19 @@ function getLastNoteId(notes) {
 
 function useNoteList() {
     const [ls, setLs] = useState([]);
-    const [connection,setConnection] = useState(false);
-    
+    const [connection,setConnection] = useState({successful: false, lastOperation: null});
+
     // Load data
     useEffect(() => {getNotes()},[])
 
     function getNotes() {
         const data_path = "/api/notes"
         const url = source_url + data_path
+        let connectSuccess = false;
         fetch(url)
          .then(response => {
-            if(response.ok){ 
-                setConnection(true);
+            if(response.ok){
+                connectSuccess = true; 
                 return response.json()
             }
             else {
@@ -59,19 +60,22 @@ function useNoteList() {
                 }
             }
         })
-         .then(data => {
+        .then(data => {
             for(const d of data) {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
             setLs(data);
-         })
-         .catch(error => {
-             console.log(error.toString())
-             console.log("Was not able to connect to server")
-            })
-    }
+        })
+        .catch(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
+        }).finally(() => {
+            setConnection({successful:connectSuccess, lastOperation:getNotes});
+        })
 
+    }
+    
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
         setLs([...ls, createNote(lnid, text)]);

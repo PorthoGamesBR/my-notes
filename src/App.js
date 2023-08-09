@@ -54,7 +54,11 @@ function App() {
         </FlexContainer>
       </FlexContainer>
 
-      {connection ? <></> : <div><p>Server not connected, changes are not being saved!</p></div>}
+      {connection.successful ? <></> : (<div>
+        <p>Server not connected, changes are not being saved!</p>
+        <input type="button" value="Reconect" onClick={() => connection.lastOperation()} />
+        </div>
+        )}
     </div>
   );
 }
