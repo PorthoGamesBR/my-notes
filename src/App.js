@@ -53,6 +53,8 @@ function App() {
 
         </FlexContainer>
       </FlexContainer>
+
+      {connection ? <></> : <div><p>Server not connected, changes are not being saved!</p></div>}
     </div>
   );
 }
