@@ -59,7 +59,9 @@ function useNoteList() {
             }
             setLs(data);
          })
-         .catch(error => {console.log(error)})
+         .catch(error => {
+             console.log(error.toString())})
+             console.log("Was not able to connect to server")
         },[])
 
     function addNote(text) {
