@@ -67,7 +67,10 @@ function useNoteList() {
             }
             setLs(data);
         })
-        .catch().finally(() => {
+            .catch(error => {
+                console.log(error.toString())
+                console.log("Was not able to connect to server")
+            }).finally(() => {
             setConnection({successful:connectSuccess, lastOperation:getNotes});
         })
         
@@ -100,7 +103,10 @@ function useNoteList() {
                 }
             }
         })
-        .then().catch().finally(() => {
+        .then(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
+        }).catch().finally(() => {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
 
@@ -155,7 +161,9 @@ function useNoteList() {
                 }
             }
         })
-        .then().catch(error => { 
+        .then().catch(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
         }).finally(() => {
             setConnection({successful:connectSuccess, lastOperation:() => editNote(id, text)});
         })
