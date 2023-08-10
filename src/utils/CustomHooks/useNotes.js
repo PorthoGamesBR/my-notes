@@ -73,26 +73,68 @@ function useNoteList() {
         }).finally(() => {
             setConnection({successful:connectSuccess, lastOperation:getNotes});
         })
-
+        
     }
     
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
         setLs([...ls, createNote(lnid, text)]);
     }
-
+    
     function deleteNote(id) {
         setLs(ls.filter((n) => n.id !== id));
     }
-
+    
     function editNote(id, text) {
+        const editedNote = createNote(id, text)
+
+        // Backend part
+        const edit_path = "/api/edit"
+        const url = source_url + edit_path
+        let connectSuccess = false;
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(editedNote)
+        })
+         .then(response => {
+            if(response.ok){
+                connectSuccess = true; 
+                return response.text()
+            }
+            else {
+                if (response.status === "NO_RESPONSE_CODE") {
+                    // No server
+                    console.log("Failed connection to server")
+                    return Promise.reject(new Error("Server Unavailable"))
+                }
+            }
+        })
+        .then(r => {
+            if(Number.parseInt(r) > 0) {
+                console.log("Succesfully edited " + r + " note(s)!")
+            }
+            else {
+                console.log(r)
+            }
+        })
+        .catch(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
+        }).finally(() => {
+            setConnection({successful:connectSuccess, lastOperation:() => editNote(id, text)});
+        })
+        
+        // Browser part
         const newList = ls.map((n) => {
-            if (n.id === id) return createNote(id, text)
+            if (n.id === id) return editedNote
             return n;
         });
         setLs(newList);        
     }
-
+    
     return [ls,  addNote, deleteNote, editNote, connection]
 }
 
