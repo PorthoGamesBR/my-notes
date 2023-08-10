@@ -37,7 +37,7 @@ function getLastNoteId(notes) {
 
 function useNoteList() {
     const [ls, setLs] = useState([]);
-    const [connection,setConnection] = useState({successful: false, lastOperation: null});
+    const [connection,setConnection] = useState({successful: false, lastOperation: getNotes});
 
     // Load data
     useEffect(() => {getNotes()},[])
@@ -118,6 +118,32 @@ function useNoteList() {
     }
 
     function deleteNote(id) {
+        const remove_path = "/api/delete"
+        const url = source_url + remove_path
+        let connectSuccess = false;
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify({"id":id}),
+        }).then(response => {
+            if(response.ok){
+                connectSuccess = true;
+               return response.text(); 
+            }else{
+                console.log(response.status)
+            }
+        }).then(r => {
+            if(Number.parseInt(r) === 1) {
+                console.log("Sucess deleting " + r + " note with noteId " + id)                
+            }else{
+                console.log("Error during operation. Exactly " + r + " notes were deleted.")
+                console.log("NoteId: " + id)
+            }
+        }).catch(err => console.log(err))
+        .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
+        
         setLs(ls.filter((n) => n.id !== id));
     }
 
