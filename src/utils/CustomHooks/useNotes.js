@@ -20,7 +20,8 @@ function isNote(obj) {
         message="Id isn't numeric. Is not a note"
         isNote=false
     }
-    else if(!typeof obj.text === 'string') {
+    else if (!typeof obj.text === 'string')
+    {
         message="Text isnt a pure string. Is not a note"
         isNote=false
     }
@@ -29,7 +30,7 @@ function isNote(obj) {
 
 function getLastNoteId(notes) {
     let lnid = 0;
-    for(const n of notes) {
+    for (const n of notes) {
         if (n.id && lnid < n.id) lnid = n.id;
     }
     return lnid;
@@ -37,10 +38,10 @@ function getLastNoteId(notes) {
 
 function useNoteList() {
     const [ls, setLs] = useState([]);
-    const [connection,setConnection] = useState({successful: false, lastOperation: getNotes});
+    const [connection, setConnection] = useState({successful: false, lastOperation: getNotes});
 
     // Load data
-    useEffect(() => {getNotes()},[])
+    useEffect(() => {getNotes()}, [])
 
     function getNotes() {
         const data_path = "/api/notes"
@@ -48,29 +49,25 @@ function useNoteList() {
         let connectSuccess = false;
         fetch(url)
          .then(response => {
-            if(response.ok){
+            if (response.ok) {
                 connectSuccess = true; 
                 return response.json()
             }
             else {
                 if (response.status === "NO_RESPONSE_CODE") {
                     // No server
-                    console.log("Failed connection to server")
                     return Promise.reject(new Error("Server Unavailable"))
                 }
             }
         })
         .then(data => {
-            for(const d of data) {
+            for (const d of data) {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
             setLs(data);
         })
-        .catch(error => {
-            console.log(error.toString())
-            console.log("Was not able to connect to server")
-        }).finally(() => {
+        .catch().finally(() => {
             setConnection({successful:connectSuccess, lastOperation:getNotes});
         })
         
@@ -99,18 +96,11 @@ function useNoteList() {
             else {
                 if (response.status === "NO_RESPONSE_CODE") {
                     // No server
-                    console.log("Failed connection to server")
                     return Promise.reject(new Error("Server Unavailable"))
                 }
             }
         })
-        .then(r => {
-            console.log(r)
-        })
-        .catch(error => {
-            console.log(error.toString())
-            console.log("Was not able to connect to server")
-        }).finally(() => {
+        .then().catch().finally(() => {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
 
@@ -131,17 +121,9 @@ function useNoteList() {
             if(response.ok){
                 connectSuccess = true;
                return response.text(); 
-            }else{
-                console.log(response.status)
             }
-        }).then(r => {
-            if(Number.parseInt(r) === 1) {
-                console.log("Sucess deleting " + r + " note with noteId " + id)                
-            }else{
-                console.log("Error during operation. Exactly " + r + " notes were deleted.")
-                console.log("NoteId: " + id)
-            }
-        }).catch(err => console.log(err))
+
+        }).then().catch()
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
         setLs(ls.filter((n) => n.id !== id));
@@ -169,22 +151,11 @@ function useNoteList() {
             else {
                 if (response.status === "NO_RESPONSE_CODE") {
                     // No server
-                    console.log("Failed connection to server")
                     return Promise.reject(new Error("Server Unavailable"))
                 }
             }
         })
-        .then(r => {
-            if(Number.parseInt(r) > 0) {
-                console.log("Succesfully edited " + r + " note(s)!")
-            }
-            else {
-                console.log(r)
-            }
-        })
-        .catch(error => {
-            console.log(error.toString())
-            console.log("Was not able to connect to server")
+        .then().catch(error => { 
         }).finally(() => {
             setConnection({successful:connectSuccess, lastOperation:() => editNote(id, text)});
         })
