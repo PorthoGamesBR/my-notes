@@ -18,7 +18,7 @@ function App() {
     <div className="App">
      <FlexContainer column={true}>
       <Banner>
-        <h2>New Note</h2>
+        <h2>Note App</h2>
       </Banner>
       <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       <FlexContainer className={"full-width jc-space-around"}>      
