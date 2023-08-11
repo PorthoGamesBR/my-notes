@@ -129,7 +129,7 @@ function useNoteList() {
                return response.text(); 
             }
 
-        }).then().catch()
+        }).then().catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
         setLs(ls.filter((n) => n.id !== id));
