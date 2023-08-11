@@ -15,10 +15,11 @@ function App() {
 
   return (
     <div className="App">
+     <FlexContainer column={true}>
       <div>
         <h2>New Note</h2>
-        <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       </div>
+      <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       <FlexContainer className={"full-width jc-space-around"}>      
         <FlexContainer column={true} className={"grow-1"}>
           {notes.length < 1 ? <p>No notes to render. Try creating a new one!</p> : (<>
@@ -53,12 +54,12 @@ function App() {
 
         </FlexContainer>
       </FlexContainer>
-
       {connection.successful ? <></> : (<div>
         <p>Server not connected, changes are not being saved!</p>
         <input type="button" value="Reconect" onClick={() => connection.lastOperation()} />
         </div>
         )}
+        </FlexContainer> 
     </div>
   );
 }
