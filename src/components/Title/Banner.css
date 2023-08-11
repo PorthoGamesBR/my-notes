@@ -2,4 +2,6 @@
     min-height: 10vh;
     width: auto;
     background-color: gainsboro;
+    text-align: start;
+    padding-left: 20px;
 }
