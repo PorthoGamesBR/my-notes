@@ -5,6 +5,7 @@ import NoteHeader from './components/Note/NoteHeader'
 import IconButton from './components/IconButton'
 import FlexContainer from './components/Containers/FlexContainer';
 import Banner from './components/Title/Banner';
+import Title from './components/Title/Title';
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
@@ -18,7 +19,7 @@ function App() {
     <div className="App">
      <FlexContainer column={true}>
       <Banner>
-        <h2>Note App</h2>
+        <Title text={"Note App"} />
       </Banner>
       <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       <FlexContainer className={"full-width jc-space-around"}>      
