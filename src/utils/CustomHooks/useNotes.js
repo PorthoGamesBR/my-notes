@@ -185,8 +185,22 @@ function useNoteList() {
         });
         setLs(newList);        
     }
+
+    function switchNoteOrder(noteOrdA, noteOrdB) {
+        const n1 = ls.find((n) => n.order === noteOrdA)
+        const n2 = ls.find((n) => n.order === noteOrdB)
+        const newData = ls.map((n) => {
+            if(n.order === n1.order) {
+                return {...n2,order:n1.order};
+            }else if(n.order === n2.order) {
+                return {...n1,order:n2.order};
+            }
+            return n;
+        })
+        setLs(newData);
+    }
     
-    return [ls,  addNote, deleteNote, editNote, connection]
+    return [ls,  addNote, deleteNote, editNote, connection, switchNoteOrder]
 }
 
 export default useNoteList;
