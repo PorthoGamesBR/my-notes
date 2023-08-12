@@ -11,7 +11,7 @@ import useNoteList from './utils/CustomHooks/useNotes';
 import './App.css';
 
 function App() {
-  const [notes, addNote, removeNote, editNote, connection] = useNoteList();
+  const [notes, addNote, removeNote, editNote, connection, switchNoteOrder] = useNoteList();
 
   return (
     <div className="App">
@@ -25,8 +25,10 @@ function App() {
           {notes.map((n) => {
             return (
             <NoteContainer key={n.id}>
+              {n.order-1 >= 0 ? <input type="button" value="⬆" onClick={() => switchNoteOrder(n.order,n.order-1)} /> : <></> }
               <NoteHeader onXClick={() => removeNote(n.id)} /> 
               <Note noteData={n} onEdit={editNote}/>
+              {n.order+1 < notes.length ? <input type="button" value="⬇" onClick={() => switchNoteOrder(n.order,n.order+1)} /> : <></> }
             </NoteContainer>)
           })}</>)}
         </FlexContainer>
