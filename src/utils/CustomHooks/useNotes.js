@@ -87,7 +87,7 @@ function useNoteList() {
     
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
-        
+        const lorder = ls.length
         const data_path = "/api/add"
         const url = source_url + data_path
         let connectSuccess = false;
@@ -98,7 +98,7 @@ function useNoteList() {
             headers: {
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify({"id":lnid, "text":text})
+            body: JSON.stringify(createNote(lnid, text, lorder))
         })
          .then(response => {
             if(response.ok){
@@ -119,7 +119,7 @@ function useNoteList() {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
 
-        setLs([...ls, createNote(lnid, text)]);
+        setLs([...ls, createNote(lnid, text, lorder)]);
     }
     
     function deleteNote(id) {
