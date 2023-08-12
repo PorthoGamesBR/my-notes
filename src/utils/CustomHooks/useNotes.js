@@ -74,7 +74,8 @@ function useNoteList() {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
-            setLs(data);
+            const sortedData = orderNoteList(data);
+            setLs(sortedData);
         })
             .catch(error => {
                 console.log(error.toString())
