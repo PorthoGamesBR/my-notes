@@ -43,6 +43,10 @@ function useNoteList() {
     // Load data
     useEffect(() => {getNotes()}, [])
 
+    function orderNoteList(noteList) {
+        return [...noteList].sort((a,b) => a.order - b.order);
+    }
+
     function getNotes() {
         const data_path = "/api/notes"
         const url = source_url + data_path
