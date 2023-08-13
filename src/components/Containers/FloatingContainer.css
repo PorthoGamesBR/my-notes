@@ -1,3 +1,11 @@
 .floating-container {
     position: fixed;
 }
+
+.fc-horizontal-middle {
+    left: 50%;
+}
+
+.fc-vertical-bottom {
+    bottom: 10%;
+}
