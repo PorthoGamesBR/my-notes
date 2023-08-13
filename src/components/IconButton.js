@@ -1,7 +1,7 @@
 import React from "react"
 
 function IconButton({icon,onClick}) {
-    return <div onClick={(e) => onClick(e)}>
+    return <div style={{cursor: "pointer"}} onClick={(e) => onClick(e)}>
         {icon}
     </div>
 }
