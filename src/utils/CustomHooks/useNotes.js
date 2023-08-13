@@ -188,11 +188,12 @@ function useNoteList() {
     function switchNoteOrder(noteOrdA, noteOrdB) {
         const n1 = ls.find((n) => n.order === noteOrdA)
         const n2 = ls.find((n) => n.order === noteOrdB)
+        const updatedNotes = [{...n2,order:n1.order},{...n1,order:n2.order}]
         const newData = ls.map((n) => {
             if(n.order === n1.order) {
-                return {...n2,order:n1.order};
+                return updatedNotes[0];
             }else if(n.order === n2.order) {
-                return {...n1,order:n2.order};
+                return updatedNotes[1];
             }
             return n;
         })
