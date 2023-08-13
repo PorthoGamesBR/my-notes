@@ -50,7 +50,7 @@ For you to run this repo, you need at least:
 - [x] Rules to the Right
 - [ ] Fonts and Colors
 - [ ] ⚠ Mobile Layout
-- [ ] Responsive Cursors
+- [x] Responsive Cursors
 
 ## 3. Installing
 To install this app to test or develop, you need to clone this repository.
