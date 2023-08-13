@@ -10,7 +10,7 @@ function isNote(obj) {
     // Checks if obj contains the data to be considered a note, return true if it is and false + error message if is not;
     let [isNote, message] = [true, ""];
 
-    if (!("id" in obj) || !("text" in obj) || ("order" in obj)) 
+    if (!("id" in obj) || !("text" in obj) || !("order" in obj)) 
     {
         message="Not found Id or Text or Order inside object. Is not a note"
         isNote=false
@@ -147,7 +147,6 @@ function useNoteList() {
     
     function editNote(noteData) {
         const editedNote = createNote(noteData.id, noteData.text, noteData.order)
-
         // Backend part
         const edit_path = "/api/edit"
         const url = source_url + edit_path
