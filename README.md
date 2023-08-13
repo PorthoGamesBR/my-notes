@@ -40,7 +40,7 @@ For you to run this repo, you need at least:
 - [x] Note Elements (Header, Body and Container)
 - [x] Rule List Elements (Text List)
 - [x] Website Banner Elements (Title)
-- [ ] Interactivity Elements (Floating Circle container)
+- [x] Interactivity Elements (Floating Circle container)
 - [x] Note list to the left
 - [x] Note Style (Like post it notes)
     - [x] Note Background
