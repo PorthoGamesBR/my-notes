@@ -59,13 +59,29 @@ If you just want to use the app, clone it right away:
 
 `git clone https://github.com/PorthoGamesBR/my-notes.git`
 
-If you want to develop/contribute, do a fork firs
+### 3.1 Contributing
+If you want to develop/contribute, clone this repo
+
+`git clone https://github.com/PorthoGamesBR/my-notes.git`
+
+Then do a fork for your personal repo
 
 <img src="https://docs.github.com/assets/cb-79331/mw-1440/images/help/repository/fork_button.webp" alt="Image of Fork on Github">
 
-Then do the clone on your personal repo
+Add your fork as a remote (replace the arguments with your username and your fork url)
 
-`git clone https://github.com/PorthoGamesBR/my-notes.git`
+`git remote add _your-github-username_ _fork-url_`
+
+And last but not least, make a branch to develop the feature you are working on. Examples:
+
+`git checkout -b "feature/note-color-change`
+`git checkout -b bugfix/spelling-mistake-readme`
+
+Just remember to push to your fork in the edit branch. Trying to push without this will result in a error
+
+`git push _your-github-username _branch-name_`
+
+Then in github, when you make a pull request, remember to make it from the branch, that way i can test your code and implement it more easily.
 
 ## 4. Deploy
 For development purposes,in the project directory, you can run:
