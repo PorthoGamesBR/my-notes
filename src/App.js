@@ -6,6 +6,7 @@ import IconButton from './components/IconButton'
 import FlexContainer from './components/Containers/FlexContainer';
 import Banner from './components/Title/Banner';
 import Title from './components/Title/Title';
+import FloatingContainer from './components/Containers/FloatingContainer';
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
@@ -21,7 +22,9 @@ function App() {
       <Banner>
         <Title text={"Note App"} />
       </Banner>
-      <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
+      <FloatingContainer>
+        <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
+      </FloatingContainer>
       <FlexContainer className={"full-width jc-space-around"}>      
         <FlexContainer column={true} className={"grow-1"}>
           {notes.length < 1 ? <p>No notes to render. Try creating a new one!</p> : (<>
