@@ -12,10 +12,9 @@ const textAreaStyle = {
 }
 
 function Note({noteData, onEdit}) {
-    const {id, text} = noteData;
     return (
         <div className="note">
-            <TextArea initValue={text} onSubmit={(t) => onEdit(id, t)} style={textAreaStyle}/>
+            <TextArea initValue={noteData.text} onSubmit={(t) => onEdit({...noteData, text:t})} style={textAreaStyle}/>
         </div>
     );
 }

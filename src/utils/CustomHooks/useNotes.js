@@ -2,22 +2,27 @@ import {useState, useEffect} from "react"
 // NOTE: Need to change once database becomes local
 const source_url = "http://127.0.0.1:5000"
 
-function createNote(id,text) {
-    return {id:id, text:text}
+function createNote(id,text, order) {
+    return {id:id, text:text, order:order}
 }
 
 function isNote(obj) {
     // Checks if obj contains the data to be considered a note, return true if it is and false + error message if is not;
     let [isNote, message] = [true, ""];
 
-    if (!("id" in obj) || !("text" in obj)) 
+    if (!("id" in obj) || !("text" in obj) || !("order" in obj)) 
     {
-        message="Not found Id or Text inside object. Is not a note"
+        message="Not found Id or Text or Order inside object. Is not a note"
         isNote=false
     }
     else if (!Number.isInteger(obj.id))
     {
         message="Id isn't numeric. Is not a note"
+        isNote=false
+    }
+    else if (!Number.isInteger(obj.order))
+    {
+        message="Order isn't numeric. Is not a note"
         isNote=false
     }
     else if (!typeof obj.text === 'string')
@@ -43,6 +48,10 @@ function useNoteList() {
     // Load data
     useEffect(() => {getNotes()}, [])
 
+    function orderNoteList(noteList) {
+        return [...noteList].sort((a,b) => a.order - b.order);
+    }
+
     function getNotes() {
         const data_path = "/api/notes"
         const url = source_url + data_path
@@ -65,7 +74,8 @@ function useNoteList() {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
-            setLs(data);
+            const sortedData = orderNoteList(data);
+            setLs(sortedData);
         })
             .catch(error => {
                 console.log(error.toString())
@@ -78,7 +88,7 @@ function useNoteList() {
     
     function addNote(text) {
         const lnid = getLastNoteId(ls)+1;
-        
+        const lorder = ls.length
         const data_path = "/api/add"
         const url = source_url + data_path
         let connectSuccess = false;
@@ -89,7 +99,7 @@ function useNoteList() {
             headers: {
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify({"id":lnid, "text":text})
+            body: JSON.stringify(createNote(lnid, text, lorder))
         })
          .then(response => {
             if(response.ok){
@@ -107,7 +117,7 @@ function useNoteList() {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
 
-        setLs([...ls, createNote(lnid, text)]);
+        setLs([...ls, createNote(lnid, text, lorder)]);
     }
     
     function deleteNote(id) {
@@ -132,9 +142,8 @@ function useNoteList() {
         setLs(ls.filter((n) => n.id !== id));
     }
     
-    function editNote(id, text) {
-        const editedNote = createNote(id, text)
-
+    function editNote(noteData) {
+        const editedNote = createNote(noteData.id, noteData.text, noteData.order)
         // Backend part
         const edit_path = "/api/edit"
         const url = source_url + edit_path
@@ -162,18 +171,65 @@ function useNoteList() {
             console.log(error.toString())
             console.log("Was not able to connect to server")
         }).finally(() => {
-            setConnection({successful:connectSuccess, lastOperation:() => editNote(id, text)});
+            setConnection({successful:connectSuccess, lastOperation:() => editNote(noteData)});
         })
         
         // Browser part
         const newList = ls.map((n) => {
-            if (n.id === id) return editedNote
+            if (n.id === noteData.id) return editedNote
             return n;
         });
         setLs(newList);        
     }
     
-    return [ls,  addNote, deleteNote, editNote, connection]
+    function switchNoteOrder(noteOrdA, noteOrdB) {
+        const n1 = ls.find((n) => n.order === noteOrdA)
+        const n2 = ls.find((n) => n.order === noteOrdB)
+        const updatedNotes = [{...n2,order:n1.order},{...n1,order:n2.order}]
+        
+        // Backend part
+        const edit_path = "/api/order"
+        const url = source_url + edit_path
+        let connectSuccess = false;
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({notes:updatedNotes})
+        })
+         .then(response => {
+            if(response.ok){
+                connectSuccess = true; 
+                return response.text()
+            }
+            else {
+                if (response.status === "NO_RESPONSE_CODE") {
+                    // No server
+                    return Promise.reject(new Error("Server Unavailable"))
+                }
+            }
+        })
+        .then().catch(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
+        }).finally(() => {
+            setConnection({successful:connectSuccess, lastOperation:() => (switchNoteOrder(noteOrdA,noteOrdB))});
+        })
+
+        // Front end part
+        const newData = ls.map((n) => {
+            if(n.order === n1.order) {
+                return updatedNotes[0];
+            }else if(n.order === n2.order) {
+                return updatedNotes[1];
+            }
+            return n;
+        })
+        setLs(newData);
+    }
+    
+    return [ls,  addNote, deleteNote, editNote, connection, switchNoteOrder]
 }
 
 export default useNoteList;

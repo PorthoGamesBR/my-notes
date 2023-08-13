@@ -34,7 +34,7 @@ For you to run this repo, you need at least:
 - [x] Button to Create Notes
 - [x] Edit notes by clicking them
 - [x] Button to Delete Notes
-- [ ] Reorganize note order with arrow button/areas
+- [x] Reorganize note order with arrow button/areas
 ### Layout
 - [x] Layout Elements (Vertical and Horizontal containers)
 - [x] Note Elements (Header, Body and Container)
