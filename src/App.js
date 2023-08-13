@@ -24,20 +24,20 @@ function App() {
           {notes.length < 1 ? <p>No notes to render. Try creating a new one!</p> : (<>
           {notes.map((n) => {
             return (
-            <NoteContainer key={n.id}>
-              {n.order-1 >= 0 ? <input type="button" value="⬆" onClick={() => switchNoteOrder(n.order,n.order-1)} /> : <></> }
+              <NoteContainer key={n.id}>
+              {n.order-1 >= 0 ? <IconButton icon="⬆" onClick={() => switchNoteOrder(n.order,n.order-1)} /> : <></> }
               <NoteHeader onXClick={() => removeNote(n.id)} /> 
               <Note noteData={n} onEdit={editNote}/>
-              {n.order+1 < notes.length ? <input type="button" value="⬇" onClick={() => switchNoteOrder(n.order,n.order+1)} /> : <></> }
-            </NoteContainer>)
-          })}</>)}
+              {n.order+1 < notes.length ? <IconButton icon="⬇" onClick={() => switchNoteOrder(n.order,n.order+1)} /> : <></> }
+              </NoteContainer>
+          )})}</>)}
         </FlexContainer>
         <FlexContainer column={true} className={"grow-1"}>
         {/* Add the rule list here */}
         <h2>Rule List</h2>
         <div>
           <p>
-            This system is made for organization. This means that the system itself cannot be unorganized, which would make the whole point of organizing nullified. 
+            This system is made for organization. This means that the system itself cannot be unorganized, which would make the whole point of organizing nullified.
           </p>
           <p>
             So there are some rules for the system to work properly. It's not a lot, but they are here. And feel free to change them for your own needs
