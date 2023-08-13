@@ -103,10 +103,7 @@ function useNoteList() {
                 }
             }
         })
-        .then(error => {
-            console.log(error.toString())
-            console.log("Was not able to connect to server")
-        }).catch(err => console.log(err)).finally(() => {
+            .catch(err => console.log(err)).finally(() => {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
 
