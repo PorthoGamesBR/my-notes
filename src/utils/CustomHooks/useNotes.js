@@ -145,8 +145,8 @@ function useNoteList() {
         setLs(ls.filter((n) => n.id !== id));
     }
     
-    function editNote(id, text) {
-        const editedNote = createNote(id, text)
+    function editNote(noteData) {
+        const editedNote = createNote(noteData.id, noteData.text, noteData.order)
 
         // Backend part
         const edit_path = "/api/edit"
@@ -175,12 +175,12 @@ function useNoteList() {
             console.log(error.toString())
             console.log("Was not able to connect to server")
         }).finally(() => {
-            setConnection({successful:connectSuccess, lastOperation:() => editNote(id, text)});
+            setConnection({successful:connectSuccess, lastOperation:() => editNote(noteData)});
         })
         
         // Browser part
         const newList = ls.map((n) => {
-            if (n.id === id) return editedNote
+            if (n.id === noteData.id) return editedNote
             return n;
         });
         setLs(newList);        
