@@ -184,11 +184,43 @@ function useNoteList() {
         });
         setLs(newList);        
     }
-
+    
     function switchNoteOrder(noteOrdA, noteOrdB) {
         const n1 = ls.find((n) => n.order === noteOrdA)
         const n2 = ls.find((n) => n.order === noteOrdB)
         const updatedNotes = [{...n2,order:n1.order},{...n1,order:n2.order}]
+        
+        // Backend part
+        const edit_path = "/api/order"
+        const url = source_url + edit_path
+        let connectSuccess = false;
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({notes:updatedNotes})
+        })
+         .then(response => {
+            if(response.ok){
+                connectSuccess = true; 
+                return response.text()
+            }
+            else {
+                if (response.status === "NO_RESPONSE_CODE") {
+                    // No server
+                    return Promise.reject(new Error("Server Unavailable"))
+                }
+            }
+        })
+        .then().catch(error => {
+            console.log(error.toString())
+            console.log("Was not able to connect to server")
+        }).finally(() => {
+            setConnection({successful:connectSuccess, lastOperation:() => (switchNoteOrder(noteOrdA,noteOrdB))});
+        })
+
+        // Front end part
         const newData = ls.map((n) => {
             if(n.order === n1.order) {
                 return updatedNotes[0];
