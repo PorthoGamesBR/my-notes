@@ -1,3 +1,4 @@
+import "./FloatingContainer.css"
 
 function FloatingContainer({children}) {
     return <div className="floating-container">{children}</div>
