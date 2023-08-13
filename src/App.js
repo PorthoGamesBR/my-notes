@@ -4,6 +4,8 @@ import Note from './components/Note/Note';
 import NoteHeader from './components/Note/NoteHeader'
 import IconButton from './components/IconButton'
 import FlexContainer from './components/Containers/FlexContainer';
+import Banner from './components/Title/Banner';
+import Title from './components/Title/Title';
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
@@ -15,10 +17,11 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <h2>New Note</h2>
-        <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
-      </div>
+     <FlexContainer column={true}>
+      <Banner>
+        <Title text={"Note App"} />
+      </Banner>
+      <IconButton icon={"✒"} onClick={() => addNote("New Note")} />
       <FlexContainer className={"full-width jc-space-around"}>      
         <FlexContainer column={true} className={"grow-1"}>
           {notes.length < 1 ? <p>No notes to render. Try creating a new one!</p> : (<>
@@ -53,12 +56,12 @@ function App() {
 
         </FlexContainer>
       </FlexContainer>
-
       {connection.successful ? <></> : (<div>
         <p>Server not connected, changes are not being saved!</p>
         <input type="button" value="Reconect" onClick={() => connection.lastOperation()} />
         </div>
         )}
+        </FlexContainer> 
     </div>
   );
 }

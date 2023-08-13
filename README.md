@@ -25,7 +25,7 @@ For you to run this repo, you need at least:
 ### Content
 - [x] ⚠ Show All Notes
 - [x] Show Rules
-- [ ] Show Title
+- [x] Show Title
 ### Note Editing
 - [x] ⚠ Create Note
 - [x] Edit Note
@@ -39,7 +39,7 @@ For you to run this repo, you need at least:
 - [x] Layout Elements (Vertical and Horizontal containers)
 - [x] Note Elements (Header, Body and Container)
 - [x] Rule List Elements (Text List)
-- [ ] Website Banner Elements (Title)
+- [x] Website Banner Elements (Title)
 - [ ] Interactivity Elements (Floating Circle container)
 - [x] Note list to the left
 - [x] Note Style (Like post it notes)
