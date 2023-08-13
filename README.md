@@ -70,16 +70,16 @@ Then do a fork for your personal repo
 
 Add your fork as a remote (replace the arguments with your username and your fork url)
 
-`git remote add _your-github-username_ _fork-url_`
+```git remote add your-github-username fork-url```
 
 And last but not least, make a branch to develop the feature you are working on. Examples:
 
-`git checkout -b "feature/note-color-change`
-`git checkout -b bugfix/spelling-mistake-readme`
+`git checkout -b "feature/note-color-change"`
+`git checkout -b "bugfix/spelling-mistake-readme"`
 
 Just remember to push to your fork in the edit branch. Trying to push without this will result in a error
 
-`git push _your-github-username _branch-name_`
+`git push your-github-username branch-name`
 
 Then in github, when you make a pull request, remember to make it from the branch, that way i can test your code and implement it more easily.
 
