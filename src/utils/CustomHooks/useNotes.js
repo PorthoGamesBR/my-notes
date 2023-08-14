@@ -1,6 +1,8 @@
 import {useState, useEffect} from "react"
 // NOTE: Need to change once database becomes local
-const source_url = "http://127.0.0.1:5000"
+const fetchOnlyLocalMachine = false
+
+const source_url = fetchOnlyLocalMachine ? "http://127.0.0.1:5000" : window.location.origin
 
 function createNote(id,text, order) {
     return {id:id, text:text, order:order}
