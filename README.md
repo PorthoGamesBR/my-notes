@@ -49,7 +49,7 @@ For you to run this repo, you need at least:
     - [x] Note Resize 
 - [x] Rules to the Right
 - [ ] Fonts and Colors
-- [ ] ⚠ Mobile Layout
+- [x] ⚠ Mobile Layout
 - [x] Responsive Cursors
 
 ## 3. Installing
