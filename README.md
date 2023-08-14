@@ -19,6 +19,8 @@ The app allows the user to create simple text notes, edit and delete them. Reorg
 ### 1.1 Pre requirements
 For you to run this repo, you need at least:
 - The most recent version of `node.js` installed on your machine
+- React 18.2.0 (or compatible versions)
+- An react project already created
 
 ## 2. Objectives
 ⚠ = Essential
@@ -54,6 +56,8 @@ For you to run this repo, you need at least:
 
 ## 3. Installing
 To install this app to test or develop, you need to clone this repository.
+
+You need to have a react project already created for this, since this repo only contains the code that was modified, but not packages and other default react project files. If you do not have one already, see [this tutorial](https://create-react-app.dev). I created with create-react-app and to prevent possible errors, i would recommend doing the same.
 
 If you just want to use the app, clone it right away: 
 
