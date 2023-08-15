@@ -43,6 +43,18 @@ function getLastNoteId(notes) {
     return lnid;
 }
 
+function removeGapFromList(notes){
+    let lastOrder = 0;
+    return notes.sort((n1, n2) => n1.order - n2.order).map((n) => {
+        let toReturn = n;
+        if (n.order > lastOrder+1) {
+            toReturn = {...n, order:lastOrder+1}
+        }
+        lastOrder+=1;
+        return toReturn;
+    })
+}
+
 function useNoteList() {
     const [ls, setLs] = useState([]);
     const [connection, setConnection] = useState({successful: false, lastOperation: getNotes});
