@@ -43,16 +43,28 @@ function getLastNoteId(notes) {
     return lnid;
 }
 
+function orderNoteList(noteList) {
+    return [...noteList].sort((a,b) => a.order - b.order);
+}
+
+function removeGapFromList(notes){
+    let lastOrder = 0;
+    return orderNoteList(notes).map((n) => {
+        let toReturn = n;
+        if (n.order > lastOrder) {
+            toReturn = {...n, order:lastOrder}
+        }
+        lastOrder+=1;
+        return toReturn;
+    })
+}
+
 function useNoteList() {
     const [ls, setLs] = useState([]);
     const [connection, setConnection] = useState({successful: false, lastOperation: getNotes});
 
     // Load data
     useEffect(() => {getNotes()}, [])
-
-    function orderNoteList(noteList) {
-        return [...noteList].sort((a,b) => a.order - b.order);
-    }
 
     function getNotes() {
         const data_path = "/api/notes"
@@ -76,8 +88,7 @@ function useNoteList() {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
-            const sortedData = orderNoteList(data);
-            setLs(sortedData);
+            setLs(removeGapFromList(data));
         })
             .catch(error => {
                 console.log(error.toString())
@@ -119,7 +130,7 @@ function useNoteList() {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
 
-        setLs([...ls, createNote(lnid, text, lorder)]);
+        setLs(removeGapFromList([...ls, createNote(lnid, text, lorder)]));
     }
     
     function deleteNote(id) {
@@ -141,7 +152,7 @@ function useNoteList() {
         }).then().catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
-        setLs(ls.filter((n) => n.id !== id));
+        setLs(removeGapFromList(ls.filter((n) => n.id !== id)));
     }
     
     function editNote(noteData) {
@@ -181,7 +192,7 @@ function useNoteList() {
             if (n.id === noteData.id) return editedNote
             return n;
         });
-        setLs(newList);        
+        setLs(removeGapFromList(newList));        
     }
     
     function switchNoteOrder(noteOrdA, noteOrdB) {
@@ -228,7 +239,7 @@ function useNoteList() {
             }
             return n;
         })
-        setLs(newData);
+        setLs(removeGapFromList(newData));
     }
     
     return [ls,  addNote, deleteNote, editNote, connection, switchNoteOrder]
