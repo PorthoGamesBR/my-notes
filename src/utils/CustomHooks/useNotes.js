@@ -43,12 +43,16 @@ function getLastNoteId(notes) {
     return lnid;
 }
 
+function orderNoteList(noteList) {
+    return [...noteList].sort((a,b) => a.order - b.order);
+}
+
 function removeGapFromList(notes){
     let lastOrder = 0;
-    return notes.sort((n1, n2) => n1.order - n2.order).map((n) => {
+    return orderNoteList(notes).map((n) => {
         let toReturn = n;
-        if (n.order > lastOrder+1) {
-            toReturn = {...n, order:lastOrder+1}
+        if (n.order > lastOrder) {
+            toReturn = {...n, order:lastOrder}
         }
         lastOrder+=1;
         return toReturn;
@@ -61,10 +65,6 @@ function useNoteList() {
 
     // Load data
     useEffect(() => {getNotes()}, [])
-
-    function orderNoteList(noteList) {
-        return [...noteList].sort((a,b) => a.order - b.order);
-    }
 
     function getNotes() {
         const data_path = "/api/notes"
