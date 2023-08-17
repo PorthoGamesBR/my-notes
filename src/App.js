@@ -45,7 +45,7 @@ function App() {
             )})}</>)}
           </FlexContainer>
         
-        <FlexContainer column={true} className={"grow-1"}>
+        <FlexContainer column={true} >
           {/* Add the rule list here */}
           <h2>Rule List</h2>
           <div>
