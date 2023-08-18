@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const NOTE_FILE = "notes.json"
 
 async function createNoteFile() {
-    await writeFile(NOTE_FILE, "[\n]", { flag: "wx"}, function(err) {if (err) console.log(err);})
+    try{ await writeFile(NOTE_FILE, "[\n]", { flag: "wx"}) }
+    catch {console.log("File Exists")}
 }
 createNoteFile()
 
