@@ -8,6 +8,7 @@ import Banner from './components/Title/Banner';
 import Title from './components/Title/Title';
 import FloatingContainer from './components/Containers/FloatingContainer';
 import CircleContainer from './components/Containers/CircleContainer';
+import ShowOnHover from './components/Containers/ShowOnHover';
 
 import {useState} from "react"
 import useNoteList from './utils/CustomHooks/useNotes';
@@ -37,10 +38,15 @@ function App() {
             {notes.map((n) => {
               return (
                 <NoteContainer key={n.id}>
-                {n.order-1 >= 0 ? <IconButton icon="⬆" onClick={() => switchNoteOrder(n.order,n.order-1)} /> : <></> }
+                {n.order-1 >= 0 ? <ShowOnHover> 
+                  <IconButton icon="⬆" onClick={() => switchNoteOrder(n.order,n.order-1)} /> 
+                  </ShowOnHover> : <></> }
                 <NoteHeader onXClick={() => removeNote(n.id)} /> 
                 <Note noteData={n} onEdit={editNote}/>
-                {n.order+1 < notes.length ? <IconButton icon="⬇" onClick={() => switchNoteOrder(n.order,n.order+1)} /> : <></> }
+                {n.order+1 < notes.length ? 
+                <ShowOnHover>
+                  <IconButton icon="⬇" onClick={() => switchNoteOrder(n.order,n.order+1)} />
+                </ShowOnHover> : <></> }
                 </NoteContainer>
             )})}</>)}
           </FlexContainer>
