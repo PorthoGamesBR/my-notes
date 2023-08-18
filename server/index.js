@@ -1,0 +1,1 @@
+process.on('exit', function() {console.log("Test")});
