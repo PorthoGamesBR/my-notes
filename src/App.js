@@ -19,7 +19,7 @@ function App() {
   const [notes, addNote, removeNote, editNote, connection, switchNoteOrder] = useNoteList();
 
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor: "#fbfbfb"}}>
      <FlexContainer column={true}>
       
         <Banner>
@@ -38,15 +38,19 @@ function App() {
             {notes.map((n) => {
               return (
                 <NoteContainer key={n.id}>
+                
                 {n.order-1 >= 0 ? <ShowOnHover> 
                   <IconButton icon="⬆" onClick={() => switchNoteOrder(n.order,n.order-1)} /> 
                   </ShowOnHover> : <></> }
+
                 <NoteHeader onXClick={() => removeNote(n.id)} /> 
                 <Note noteData={n} onEdit={editNote}/>
                 {n.order+1 < notes.length ? 
+                
                 <ShowOnHover>
                   <IconButton icon="⬇" onClick={() => switchNoteOrder(n.order,n.order+1)} />
                 </ShowOnHover> : <></> }
+                
                 </NoteContainer>
             )})}</>)}
           </FlexContainer>
