@@ -1,8 +1,14 @@
 const express = require("express");
 const { readFile, writeFile } = require('fs').promises
-const  bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 const NOTE_FILE = "notes.json"
+
+async function createNoteFile() {
+    await writeFile(NOTE_FILE, "[\n]", { flag: "wx"}, function(err) {if (err) console.log(err);})
+}
+createNoteFile()
+
 const app = express();
 app.use(express.static("build"))
 app.use(bodyParser.json())
