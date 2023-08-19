@@ -109,6 +109,22 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### 4.1 Express Server
+For the purpose of making this app "batteries included", i made a simple node server with the Express package that is in the /server directory. The idea of this project it is to be server independent, so it can run with any server you want to (that runs React), but i added this for people who just want to use the app without configuring a server and have it save their notes.
+
+The Express server saves the notes into a .json file, so it's not exactly secure, beware of that. Not that i recommend saving something potentially dangerous in this notes, but if you plan to use this app in a public network, i highly recomend using a more robust server with security measures.
+
+Once you build the app, you need to use two commands:
+
+- In the server folder, run `npm install`. This will install the dependecies of the server
+
+- In the root folder of this project, run `node server`. The server will run with the files on the build folder.
+
+Just a note: I plan to add this server directly in the app, as a .js file, so it does not need to install dependecies separately from the app. But i do not guarantee i will do it, so if you find this idea interesting, you can clone this repo and implement it, and push to this repo. I will not open a issue for it but i will accept if someone wants to do it.
+
+- If i run the command inside the server folder...
+...or in any other folder, it's gonna raise an error and shutdown, since it uses local paths. For it to run correctly, run it in the root folder of this project.
+
 ## 5. Using
 
 No secret sauce here: 
