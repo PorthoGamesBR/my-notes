@@ -1,5 +1,6 @@
 const express = require("express");
 const { readFile, writeFile } = require('fs').promises
+const writeFile2 = require('fs').writeFile
 const bodyParser = require('body-parser');
 
 const NOTE_FILE = "notes.json"
@@ -29,7 +30,18 @@ app.get('/api/notes', async (request, response) => {
 app.post('/api/add', async (request, response) => {
     const data = response.locals.notes;
     const newData = [...data, request.body]
-    await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+    
+    let toReturn = {success:false, error:""}
+    writeFile2(NOTE_FILE, JSON.stringify(newData, null, 2), (err) => {
+        if (err) {
+            toReturn.error = err;
+        }
+        else {
+            toReturn.success = true;
+        }
+        response.json(toReturn)
+    })
+    
 })
 
 app.post('/api/delete', async (request, response) => {

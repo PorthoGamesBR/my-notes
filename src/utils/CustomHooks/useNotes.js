@@ -125,12 +125,25 @@ function useNoteList() {
                     return Promise.reject(new Error("Server Unavailable"))
                 }
             }
+            return response.json()
         })
-            .catch(err => console.log(err)).finally(() => {
-            setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
-        })
-
-        setLs(removeGapFromList([...ls, createNote(lnid, text, lorder)]));
+        .then(d =>
+            {
+                const json = JSON.parse(d);
+                if(!Boolean(json['success'])) {
+                    console.log("Add operation was not sucessfull.")
+                    console.log(json)
+                    connectSuccess = false;
+                }
+                else {
+                }
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
+            })
+            
+            setLs(removeGapFromList([...ls, createNote(lnid, text, lorder)]));
     }
     
     function deleteNote(id) {
