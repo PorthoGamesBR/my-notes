@@ -1,4 +1,5 @@
 .circle-container {
     border: solid black 1px;
     border-radius: 100%;
+    background-color: white;
 }
