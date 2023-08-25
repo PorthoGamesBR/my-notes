@@ -3,6 +3,7 @@ const { readFile, writeFile } = require('fs').promises
 const bodyParser = require('body-parser');
 
 const NOTE_FILE = "notes.json"
+const RESPONSE = () => { return {success: false, error: ""}};
 
 async function createNoteFile() {
     try{ await writeFile(NOTE_FILE, "[\n]", { flag: "wx"}) }
@@ -30,7 +31,7 @@ app.post('/api/add', async (request, response) => {
     const data = response.locals.notes;
     const newData = [...data, request.body]
     
-    let toReturn = {success:false, error:""}
+    let toReturn = new RESPONSE()
     try
     {
         // Weird behaviour but thats javascript for you baby: It returns undefined if success
@@ -50,7 +51,7 @@ app.post('/api/delete', async (request, response) => {
     const idToRemove = request.body.id;
     const newData = data.filter((n) => n.id != idToRemove);
     
-    let toReturn = {success:false, error:""}
+    let toReturn = RESPONSE()
     try
     {
         await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
@@ -73,7 +74,19 @@ app.post('/api/edit',async (request, response) => {
         return n;
     });
 
-    await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+    let toReturn = RESPONSE()
+    try
+    {
+        await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+        toReturn.success = true;
+    }
+    catch (err)
+    {
+        console.log(err)
+        toReturn.error = err
+    }
+
+    response.send(toReturn)
 })
 
 app.post('/api/order',async (request, response) => {

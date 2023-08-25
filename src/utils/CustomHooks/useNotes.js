@@ -192,7 +192,7 @@ function useNoteList() {
          .then(response => {
             if(response.ok){
                 connectSuccess = true; 
-                return response.text()
+                return response.json()
             }
             else {
                 if (response.status === "NO_RESPONSE_CODE") {
@@ -201,7 +201,15 @@ function useNoteList() {
                 }
             }
         })
-        .then().catch(error => {
+        .then(d => {
+                    if(!Boolean(json['success'])) 
+                    {
+                        console.log("Edit operation was not sucessfull.")
+                        console.log(json)
+                        connectSuccess = false;
+                    }
+                }
+            ).catch(error => {
             console.log(error.toString())
             console.log("Was not able to connect to server")
         }).finally(() => {
