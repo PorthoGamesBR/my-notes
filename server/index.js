@@ -1,6 +1,5 @@
 const express = require("express");
 const { readFile, writeFile } = require('fs').promises
-const writeFile2 = require('fs').writeFile
 const bodyParser = require('body-parser');
 
 const NOTE_FILE = "notes.json"
@@ -32,15 +31,17 @@ app.post('/api/add', async (request, response) => {
     const newData = [...data, request.body]
     
     let toReturn = {success:false, error:""}
-    writeFile2(NOTE_FILE, JSON.stringify(newData, null, 2), (err) => {
-        if (err) {
-            toReturn.error = err;
-        }
-        else {
-            toReturn.success = true;
-        }
-        response.json(toReturn)
-    })
+    try
+    {
+        // Weird behaviour but thats javascript for you baby: It returns undefined if success
+        await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+        toReturn.success = true;
+    }
+    catch (err) {
+        console.error(err)
+        toReturn.error = err;
+    }
+    response.json(toReturn)
     
 })
 
