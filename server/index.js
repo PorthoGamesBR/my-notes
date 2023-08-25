@@ -49,8 +49,19 @@ app.post('/api/delete', async (request, response) => {
     const data = response.locals.notes;
     const idToRemove = request.body.id;
     const newData = data.filter((n) => n.id != idToRemove);
-    await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
-    response.send((data.lenght - newData.lenght).toString())
+    
+    let toReturn = {success:false, error:""}
+    try
+    {
+        await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+        toReturn.success = true
+    }
+    catch (err) {
+        console.error(err)
+        toReturn.error = err
+    }
+    
+    response.send(toReturn)
 })
 
 app.post('/api/edit',async (request, response) => {

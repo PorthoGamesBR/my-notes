@@ -159,10 +159,18 @@ function useNoteList() {
         }).then(response => {
             if(response.ok){
                 connectSuccess = true;
-               return response.text(); 
+               return response.json(); 
             }
 
-        }).then().catch(err => console.log(err))
+        }).then( d =>
+            {
+                if(!Boolean(json['success'])) {
+                console.log("Delete operation was not sucessfull.")
+                console.log(json)
+                connectSuccess = false;
+            }
+        }
+        ).catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
         setLs(removeGapFromList(ls.filter((n) => n.id !== id)));
