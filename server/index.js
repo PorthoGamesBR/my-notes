@@ -91,6 +91,8 @@ app.post('/api/edit',async (request, response) => {
 
 app.post('/api/order',async (request, response) => {
     const data = response.locals.notes;
+    // First get all the old notes, then run through all of them
+    // If a note is in the list on the request (notes to change order), return the note inisde the request (Who has the order altered)
     const newData = data.map((n) => {
         const newNote = request.body.notes.find((rn) => rn.id == n.id)
         return newNote || n;
