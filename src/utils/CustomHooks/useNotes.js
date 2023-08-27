@@ -59,6 +59,21 @@ function removeGapFromList(notes){
     })
 }
 
+// this function checks if the server is connected based on the response of the fetch request
+function serverConnected(response) {
+    const toReturn = {connected:false, error:""}
+    if (response.ok) {
+        toReturn.connection = true;
+    }
+    else {
+        if (response.status === "NO_RESPONSE_CODE") {
+            // No server
+            toReturn.error = "Server Unavailable"
+        }
+    }
+    return toReturn;
+}
+
 function useNoteList() {
     const [ls, setLs] = useState([]);
     const [connection, setConnection] = useState({successful: false, lastOperation: getNotes});
@@ -67,20 +82,27 @@ function useNoteList() {
     useEffect(() => {getNotes()}, [])
 
     function getNotes() {
+        // Is this function doing too much? Lets see...
+        // It declares two variables used for the fetch function, and only this. This doesnt add bloat
+        // Then the connect success var is added, to return to the app so it can show an error or not depending on it's value
+        // The error checking can be considered bloat? I think so, because it's a lot of logic inside of a single function
+
         const data_path = "/api/notes"
         const url = source_url + data_path
         let connectSuccess = false;
+
         fetch(url)
-         .then(response => {
-            if (response.ok) {
-                connectSuccess = true; 
+        // For example, this whole part logic can change in the future. What all of this do?
+        // Checks if the connection with the server happened and some data returned
+        // Now everything looks way nicer. If there is ever a problem with server connection, i don't need to change it here 
+        // And the same goes to every other function that implemented the same logic. now i change once, apply everywere
+        .then(response => {
+            const serverConnectionStatus = serverConnected(response)
+            if (serverConnectionStatus.connected) {
                 return response.json()
             }
             else {
-                if (response.status === "NO_RESPONSE_CODE") {
-                    // No server
-                    return Promise.reject(new Error("Server Unavailable"))
-                }
+                return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
         .then(data => {
@@ -105,6 +127,7 @@ function useNoteList() {
         const data_path = "/api/add"
         const url = source_url + data_path
         let connectSuccess = false;
+        
         fetch(url,{
             method: "POST",
             mode: "cors",
@@ -115,27 +138,20 @@ function useNoteList() {
             body: JSON.stringify(createNote(lnid, text, lorder))
         })
          .then(response => {
-            if(response.ok){
-                connectSuccess = true; 
-                return response.text()
+            const serverConnectionStatus = serverConnected(response)
+            if (serverConnectionStatus.connected) {
+                return response.json()
             }
             else {
-                if (response.status === "NO_RESPONSE_CODE") {
-                    // No server
-                    return Promise.reject(new Error("Server Unavailable"))
-                }
+                return Promisse.reject(new Error(serverConnectionStatus.error))
             }
-            return response.json()
         })
         .then(d =>
             {
-                const json = JSON.parse(d);
                 if(!Boolean(json['success'])) {
                     console.log("Add operation was not sucessfull.")
                     console.log(json)
                     connectSuccess = false;
-                }
-                else {
                 }
             })
             .catch(err => console.log(err))
@@ -157,11 +173,13 @@ function useNoteList() {
             },
             body: JSON.stringify({"id":id}),
         }).then(response => {
-            if(response.ok){
-                connectSuccess = true;
-               return response.json(); 
+            const serverConnectionStatus = serverConnected(response)
+            if (serverConnectionStatus.connected) {
+                return response.json()
             }
-
+            else {
+                return Promisse.reject(new Error(serverConnectionStatus.error))
+            }
         }).then( d =>
             {
                 if(!Boolean(json['success'])) {
@@ -190,15 +208,12 @@ function useNoteList() {
             body: JSON.stringify(editedNote)
         })
          .then(response => {
-            if(response.ok){
-                connectSuccess = true; 
+            const serverConnectionStatus = serverConnected(response)
+            if (serverConnectionStatus.connected) {
                 return response.json()
             }
             else {
-                if (response.status === "NO_RESPONSE_CODE") {
-                    // No server
-                    return Promise.reject(new Error("Server Unavailable"))
-                }
+                return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
         .then(d => {
