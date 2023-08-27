@@ -125,12 +125,25 @@ function useNoteList() {
                     return Promise.reject(new Error("Server Unavailable"))
                 }
             }
+            return response.json()
         })
-            .catch(err => console.log(err)).finally(() => {
-            setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
-        })
-
-        setLs(removeGapFromList([...ls, createNote(lnid, text, lorder)]));
+        .then(d =>
+            {
+                const json = JSON.parse(d);
+                if(!Boolean(json['success'])) {
+                    console.log("Add operation was not sucessfull.")
+                    console.log(json)
+                    connectSuccess = false;
+                }
+                else {
+                }
+            })
+            .catch(err => console.log(err))
+            .finally(() => {
+                setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
+            })
+            
+            setLs(removeGapFromList([...ls, createNote(lnid, text, lorder)]));
     }
     
     function deleteNote(id) {
@@ -146,10 +159,18 @@ function useNoteList() {
         }).then(response => {
             if(response.ok){
                 connectSuccess = true;
-               return response.text(); 
+               return response.json(); 
             }
 
-        }).then().catch(err => console.log(err))
+        }).then( d =>
+            {
+                if(!Boolean(json['success'])) {
+                console.log("Delete operation was not sucessfull.")
+                console.log(json)
+                connectSuccess = false;
+            }
+        }
+        ).catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
         setLs(removeGapFromList(ls.filter((n) => n.id !== id)));
@@ -171,7 +192,7 @@ function useNoteList() {
          .then(response => {
             if(response.ok){
                 connectSuccess = true; 
-                return response.text()
+                return response.json()
             }
             else {
                 if (response.status === "NO_RESPONSE_CODE") {
@@ -180,7 +201,15 @@ function useNoteList() {
                 }
             }
         })
-        .then().catch(error => {
+        .then(d => {
+                    if(!Boolean(json['success'])) 
+                    {
+                        console.log("Edit operation was not sucessfull.")
+                        console.log(json)
+                        connectSuccess = false;
+                    }
+                }
+            ).catch(error => {
             console.log(error.toString())
             console.log("Was not able to connect to server")
         }).finally(() => {

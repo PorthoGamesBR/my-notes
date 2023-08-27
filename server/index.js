@@ -3,6 +3,7 @@ const { readFile, writeFile } = require('fs').promises
 const bodyParser = require('body-parser');
 
 const NOTE_FILE = "notes.json"
+const RESPONSE = () => { return {success: false, error: ""}};
 
 async function createNoteFile() {
     try{ await writeFile(NOTE_FILE, "[\n]", { flag: "wx"}) }
@@ -29,15 +30,39 @@ app.get('/api/notes', async (request, response) => {
 app.post('/api/add', async (request, response) => {
     const data = response.locals.notes;
     const newData = [...data, request.body]
-    await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+    
+    let toReturn = new RESPONSE()
+    try
+    {
+        // Weird behaviour but thats javascript for you baby: It returns undefined if success
+        await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+        toReturn.success = true;
+    }
+    catch (err) {
+        console.error(err)
+        toReturn.error = err;
+    }
+    response.json(toReturn)
+    
 })
 
 app.post('/api/delete', async (request, response) => {
     const data = response.locals.notes;
     const idToRemove = request.body.id;
     const newData = data.filter((n) => n.id != idToRemove);
-    await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
-    response.send((data.lenght - newData.lenght).toString())
+    
+    let toReturn = RESPONSE()
+    try
+    {
+        await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+        toReturn.success = true
+    }
+    catch (err) {
+        console.error(err)
+        toReturn.error = err
+    }
+    
+    response.send(toReturn)
 })
 
 app.post('/api/edit',async (request, response) => {
@@ -49,11 +74,25 @@ app.post('/api/edit',async (request, response) => {
         return n;
     });
 
-    await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+    let toReturn = RESPONSE()
+    try
+    {
+        await writeFile(NOTE_FILE, JSON.stringify(newData, null, 2))
+        toReturn.success = true;
+    }
+    catch (err)
+    {
+        console.log(err)
+        toReturn.error = err
+    }
+
+    response.send(toReturn)
 })
 
 app.post('/api/order',async (request, response) => {
     const data = response.locals.notes;
+    // First get all the old notes, then run through all of them
+    // If a note is in the list on the request (notes to change order), return the note inisde the request (Who has the order altered)
     const newData = data.map((n) => {
         const newNote = request.body.notes.find((rn) => rn.id == n.id)
         return newNote || n;
