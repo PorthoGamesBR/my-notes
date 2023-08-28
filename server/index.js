@@ -31,7 +31,8 @@ app.post('/api/add', async (request, response) => {
     const data = response.locals.notes;
     const newData = [...data, request.body]
     
-    let toReturn = new RESPONSE()
+    // Godamit, why did i put a new in a function call?
+    let toReturn = RESPONSE()
     try
     {
         // Weird behaviour but thats javascript for you baby: It returns undefined if success
