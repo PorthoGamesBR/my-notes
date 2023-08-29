@@ -74,8 +74,12 @@ function serverConnected(response) {
     return toReturn;
 }
 
+// This is responsible for keeping the note data formating
+// All the business logic should go here, so the rest of the app only cares about the data itself and not it's rules
 function useNoteList() {
+
     const [ls, setLs] = useState([]);
+    // Should connection be part of this? It seems good to show errors, but not that good in division of responsability
     const [connection, setConnection] = useState({successful: false, lastOperation: getNotes});
 
     // Load data
@@ -106,19 +110,21 @@ function useNoteList() {
             }
         })
         .then(data => {
+            // Checks if every received data is a note
+            // This is doing four things: checks every note in the data, returns an error if a note is not valid, then formats the data and set Ls as the data.
             for (const d of data) {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
             setLs(removeGapFromList(data));
         })
-            .catch(error => {
+        .catch(error => {
                 console.log(error.toString())
                 console.log("Was not able to connect to server")
-            }).finally(() => {
+        })
+        .finally(() => {
             setConnection({successful:connectSuccess, lastOperation:getNotes});
         })
-        
     }
     
     function addNote(text) {
@@ -286,6 +292,7 @@ function useNoteList() {
         setLs(removeGapFromList(newData));
     }
     
+    // Perhaps this is too much data to return from a single hook. I should analyze it
     return [ls,  addNote, deleteNote, editNote, connection, switchNoteOrder]
 }
 
