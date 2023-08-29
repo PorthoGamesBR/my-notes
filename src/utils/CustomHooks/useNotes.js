@@ -12,7 +12,7 @@ function isNote(obj) {
     // Checks if obj contains the data to be considered a note, return true if it is and false + error message if is not;
     let [isNote, message] = [true, ""];
 
-    if (!("id" in obj) || !("text" in obj) || !("order" in obj)) 
+    if (!("id" in obj) || !("text" in obj) || !("order" in obj))
     {
         message="Not found Id or Text or Order inside object. Is not a note"
         isNote=false
@@ -68,7 +68,7 @@ function getPostRequestObj(reqBody) {
             "Content-Type": "application/json; charset=utf-8"
         },
         body: reqBody
-    } 
+    }
 }
 
 // this function checks if the server is connected based on the response of the fetch request
@@ -84,6 +84,17 @@ function serverConnected(response) {
         }
     }
     return toReturn;
+}
+
+// Based on the response data (rspn) from the server, returns true if the data change was a success and false if not
+// This function can be chaged if the response of the server changes format, so we dont need to change every fetch call
+function dataChangeSuccess(rspn, op="") {
+    if(!Boolean(rspn['success'])) {
+        console.log(op + " operation was not sucessfull.")
+        console.log(rspn)
+        return false;
+    }
+    return true;
 }
 
 // This is responsible for keeping the note data formating
@@ -115,7 +126,7 @@ function useNoteList() {
         fetch(url)
         // For example, this whole part logic can change in the future. What all of this do?
         // Checks if the connection with the server happened and some data returned
-        // Now everything looks way nicer. If there is ever a problem with server connection, i don't need to change it here 
+        // Now everything looks way nicer. If there is ever a problem with server connection, i don't need to change it here
         // And the same goes to every other function that implemented the same logic. now i change once, apply everywere
         .then(response => {
             const serverConnectionStatus = serverConnected(response)
@@ -133,7 +144,7 @@ function useNoteList() {
             // NOTE: Since im in a refactor and not in a feature, i will not change this logic, but the setNoteList function could check for bad formated notes too since is something usefull to every function that manipulates note data
             for (const d of data) {
                 const [isnote, err] = isNote(d);
-                if (!isnote) return Promise.reject(new Error(err));    
+                if (!isnote) return Promise.reject(new Error(err));
             }
             setNoteList(data);
         })
@@ -145,20 +156,20 @@ function useNoteList() {
             setConnection({successful:connectSuccess, lastOperation:getNotes});
         })
     }
-    
+
     function addNote(text) {
         // What does this function do?
         // To add a note this function needs three things: the note id, the note text and the note order
         // The text comes to the function as an argument, while the other two thing needs to come from inside the state
         // The last note id already comes from a function, and there is no secret for last order. It's just the lenght if the list is nicely formated.
         // But since the note data dont change in the rest of the function, i could create the note right here
-        const newNote = createNote(id=getLastNoteId(ls)+1, text=text, order=ls.length) 
+        const newNote = createNote(id=getLastNoteId(ls)+1, text=text, order=ls.length)
 
         // This here is the same as other functions. Perhaps this i can refactor since every other function does the same
         const data_path = "/api/add"
         const url = source_url + data_path
         let connectSuccess = false;
-        
+
         // So here is something that needs refactor. As you can see, in every operation except get, i use a header to my fetch
         // The header is basically the same for each fetch, and the problem is exactly that since i write each one individually,
         // I can end up with different headers for each one
@@ -173,25 +184,18 @@ function useNoteList() {
                 return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(json =>
-        {
-            if(!Boolean(json['success'])) {
-                console.log("Add operation was not sucessfull.")
-                console.log(json)
-                connectSuccess = false;
-            }
-        })
+        .then(json => connectSuccess = dataChangeSuccess(json, "Add"))
         .catch(err => console.log(err))
         .finally(() => {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
-        
+
         // This is outside the fetch function so the UI updates before the operation ends
         // NOTE: Perhaps a way of solving problems with different data on the front x back would be to
         // make a second check on the finnaly function
         setNoteList([...ls, newNote]);
     }
-    
+
     function deleteNote(id) {
         // This one is a simple one, just send the id to the server and it does the rest
         // Im assuming the server it's at least a CRUD, so it have it's own logic to delete data
@@ -211,31 +215,30 @@ function useNoteList() {
                 return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(json =>
-            {
-                if(!Boolean(json['success'])) {
-                    console.log("Delete operation was not sucessfull.")
-                    console.log(json)
-                    connectSuccess = false;
-                }
-            }
-        )
+        .then(json => connectSuccess = dataChangeSuccess(json, "Delete"))
         .catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
-        
+
         // This one doesnt need that much refactor since this filter function does most of the job
         // And the other repetitive parts where refactor with the other functions
         setNoteList(ls.filter((n) => n.id !== id));
     }
-    
+
     function editNote(noteData) {
+        // Since the part of the app who calls this function also has the data of the whole note,
+        // it is simpler to pass the whole data
+        // What does this function do though?
+        // First it creates a new note with the data that was changed from the original. It doesnt know what was changed tho
+        // Then it does a request to the edit/update route of the server with the editedNote as the body
+        // And last but not least, creates a new list replacing the old note with the new one, and sets ls as the new list
         const editedNote = createNote(noteData.id, noteData.text, noteData.order)
-        // Backend part
+
         const edit_path = "/api/edit"
         const url = source_url + edit_path
         let connectSuccess = false;
+
         fetch(url,getPostRequestObj(JSON.stringify(editedNote)))
-         .then(response => {
+        .then(response => {
             const serverConnectionStatus = serverConnected(response)
             if (serverConnectionStatus.connected) {
                 return response.json()
@@ -244,34 +247,32 @@ function useNoteList() {
                 return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(json => {
-                    if(!Boolean(json['success'])) 
-                    {
-                        console.log("Edit operation was not sucessfull.")
-                        console.log(json)
-                        connectSuccess = false;
-                    }
-                }
-            ).catch(error => {
+        // So this logic repeats three times, with the only change being the error message. Let's take this out to it's own function
+        // Now that it's in its own function, all the other fetch calls are easier to read
+        .then(json => connectSuccess = dataChangeSuccess(json, "Edit"))
+        .catch(error =>
+        {
             console.log(error.toString())
             console.log("Was not able to connect to server")
-        }).finally(() => {
+        })
+        .finally(() => {
             setConnection({successful:connectSuccess, lastOperation:() => editNote(noteData)});
         })
-        
+
         // Browser part
         const newList = ls.map((n) => {
             if (n.id === noteData.id) return editedNote
             return n;
         });
-        setNoteList(newList);        
+
+        setNoteList(newList);
     }
-    
+
     function switchNoteOrder(noteOrdA, noteOrdB) {
         const n1 = ls.find((n) => n.order === noteOrdA)
         const n2 = ls.find((n) => n.order === noteOrdB)
         const updatedNotes = [{...n2,order:n1.order},{...n1,order:n2.order}]
-        
+
         // Backend part
         const edit_path = "/api/order"
         const url = source_url + edit_path
@@ -279,7 +280,7 @@ function useNoteList() {
         fetch(url, getPostRequestObj(JSON.stringify({notes:updatedNotes})))
          .then(response => {
             if(response.ok){
-                connectSuccess = true; 
+                connectSuccess = true;
                 return response.text()
             }
             else {
@@ -307,7 +308,7 @@ function useNoteList() {
         })
         setNoteList(newData);
     }
-    
+
     // Perhaps this is too much data to return from a single hook. I should analyze it
     return [ls,  addNote, deleteNote, editNote, connection, switchNoteOrder]
 }
