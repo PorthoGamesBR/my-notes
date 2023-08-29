@@ -40,7 +40,7 @@ function isNote(obj) {
         else if (!typeof obj.text === 'string')
             setErrorMessage("Text isn't a pure string")
     }
-    
+
     return [isNote, message]
 }
 
@@ -112,6 +112,9 @@ function useNoteList() {
 
     const [ls, setLs] = useState([]);
     // Should connection be part of this? It seems good to show errors, but not that good in division of responsability
+    // Actually should the connection be done inside the useNoteList hook? I mean, this should be responsible of keeping the state of
+    // the noteList, not relations with the server. Perhaps the server conector should be a parameter for this function
+    // NOTE: The connection should be set before and after the async operation, since it should not be considered false when it's trying to do a connection
     const [connection, setConnection] = useState({successful: false, lastOperation: getNotes});
 
     // Load data
