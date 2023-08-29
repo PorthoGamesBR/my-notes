@@ -85,6 +85,11 @@ function useNoteList() {
     // Load data
     useEffect(() => {getNotes()}, [])
 
+    // Execute any treatment operations on the list before setting the state
+    function setNoteList(noteList) {
+        setLs(removeGapFromList(noteList))
+    }
+
     function getNotes() {
         // Is this function doing too much? Lets see...
         // It declares two variables used for the fetch function, and only this. This doesnt add bloat
@@ -116,7 +121,7 @@ function useNoteList() {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
             }
-            setLs(removeGapFromList(data));
+            setNoteList(data);
         })
         .catch(error => {
                 console.log(error.toString())
@@ -165,7 +170,7 @@ function useNoteList() {
                 setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
             })
             
-            setLs(removeGapFromList([...ls, createNote(lnid, text, lorder)]));
+            setNoteList([...ls, createNote(lnid, text, lorder)]);
     }
     
     function deleteNote(id) {
@@ -197,7 +202,7 @@ function useNoteList() {
         ).catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
-        setLs(removeGapFromList(ls.filter((n) => n.id !== id)));
+        setNoteList(ls.filter((n) => n.id !== id));
     }
     
     function editNote(noteData) {
@@ -242,7 +247,7 @@ function useNoteList() {
             if (n.id === noteData.id) return editedNote
             return n;
         });
-        setLs(removeGapFromList(newList));        
+        setNoteList(newList);        
     }
     
     function switchNoteOrder(noteOrdA, noteOrdB) {
@@ -289,7 +294,7 @@ function useNoteList() {
             }
             return n;
         })
-        setLs(removeGapFromList(newData));
+        setNoteList(newData);
     }
     
     // Perhaps this is too much data to return from a single hook. I should analyze it
