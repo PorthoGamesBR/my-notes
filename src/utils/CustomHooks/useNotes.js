@@ -173,7 +173,7 @@ function useNoteList() {
                 return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(d =>
+        .then(json =>
         {
             if(!Boolean(json['success'])) {
                 console.log("Add operation was not sucessfull.")
@@ -185,15 +185,24 @@ function useNoteList() {
         .finally(() => {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
-            
+        
+        // This is outside the fetch function so the UI updates before the operation ends
+        // NOTE: Perhaps a way of solving problems with different data on the front x back would be to
+        // make a second check on the finnaly function
         setNoteList([...ls, newNote]);
     }
     
     function deleteNote(id) {
+        // This one is a simple one, just send the id to the server and it does the rest
+        // Im assuming the server it's at least a CRUD, so it have it's own logic to delete data
+        // Otherwise i would need to send the whole JSON to the server everytime there is a deletion
+
         const remove_path = "/api/delete"
         const url = source_url + remove_path
         let connectSuccess = false;
-        fetch(url, getPostRequestObj(JSON.stringify({"id":id}))).then(response => {
+
+        fetch(url, getPostRequestObj(JSON.stringify({"id":id})))
+        .then(response => {
             const serverConnectionStatus = serverConnected(response)
             if (serverConnectionStatus.connected) {
                 return response.json()
@@ -201,7 +210,8 @@ function useNoteList() {
             else {
                 return Promisse.reject(new Error(serverConnectionStatus.error))
             }
-        }).then( d =>
+        })
+        .then(json =>
             {
                 if(!Boolean(json['success'])) {
                 console.log("Delete operation was not sucessfull.")
@@ -231,7 +241,7 @@ function useNoteList() {
                 return Promisse.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(d => {
+        .then(json => {
                     if(!Boolean(json['success'])) 
                     {
                         console.log("Edit operation was not sucessfull.")
