@@ -269,6 +269,13 @@ function useNoteList() {
     }
 
     function switchNoteOrder(noteOrdA, noteOrdB) {
+        // So in this one it's a little bit different, since the business logic is done here and at the server
+        // NOTE: Need to change this later
+        // We not only need to change the note order here, but we need to send notes in a specific format to the server
+        // This operation here does the transition of notes, and since it only happens once, i dont think it needs to have it's own function
+        // We do change the note order based on the order itself instead of the ID, but since we need to find the id for the
+        // server, we end up needing for two large operations here.
+        // TODO: Find a better way of doing this
         const n1 = ls.find((n) => n.order === noteOrdA)
         const n2 = ls.find((n) => n.order === noteOrdB)
         const updatedNotes = [{...n2,order:n1.order},{...n1,order:n2.order}]
@@ -277,8 +284,9 @@ function useNoteList() {
         const edit_path = "/api/order"
         const url = source_url + edit_path
         let connectSuccess = false;
+
         fetch(url, getPostRequestObj(JSON.stringify({notes:updatedNotes})))
-         .then(response => {
+        .then(response => {
             if(response.ok){
                 connectSuccess = true;
                 return response.text()
@@ -290,10 +298,12 @@ function useNoteList() {
                 }
             }
         })
-        .then().catch(error => {
+        .then()
+        .catch(error => {
             console.log(error.toString())
             console.log("Was not able to connect to server")
-        }).finally(() => {
+        })
+        .finally(() => {
             setConnection({successful:connectSuccess, lastOperation:() => (switchNoteOrder(noteOrdA,noteOrdB))});
         })
 
@@ -306,6 +316,7 @@ function useNoteList() {
             }
             return n;
         })
+        
         setNoteList(newData);
     }
 
