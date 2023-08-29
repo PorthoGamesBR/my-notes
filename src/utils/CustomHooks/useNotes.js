@@ -59,6 +59,18 @@ function removeGapFromList(notes){
     })
 }
 
+function getPostRequestObj(reqBody) {
+    return {
+        method: "POST",
+        mode: "cors",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: reqBody
+    } 
+}
+
 // this function checks if the server is connected based on the response of the fetch request
 function serverConnected(response) {
     const toReturn = {connected:false, error:""}
@@ -117,6 +129,8 @@ function useNoteList() {
         .then(data => {
             // Checks if every received data is a note
             // This is doing four things: checks every note in the data, returns an error if a note is not valid, then formats the data and set Ls as the data.
+            // Now it only does three, since the formating is done inside the function
+            // NOTE: Since im in a refactor and not in a feature, i will not change this logic, but the setNoteList function could check for bad formated notes too since is something usefull to every function that manipulates note data
             for (const d of data) {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));    
@@ -133,22 +147,24 @@ function useNoteList() {
     }
     
     function addNote(text) {
+        // What does this function do?
+        // To add a note this function needs three things: the note id, the note text and the note order
+        // The text comes to the function as an argument, while the other two thing needs to come from inside the state
+        // The last note id already comes from a function, and there is no secret for last order. It's just the lenght if the list is nicely formated.
         const lnid = getLastNoteId(ls)+1;
         const lorder = ls.length
+
+        // This here is the same as other functions. Perhaps this i can refactor since every other function does the same
         const data_path = "/api/add"
         const url = source_url + data_path
         let connectSuccess = false;
         
-        fetch(url,{
-            method: "POST",
-            mode: "cors",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify(createNote(lnid, text, lorder))
-        })
-         .then(response => {
+        // So here is something that needs refactor. As you can see, in every operation except get, i use a header to my fetch
+        // The header is basically the same for each fetch, and the problem is exactly that since i write each one individually,
+        // I can end up with different headers for each one
+        // The header is a JSON-formated object, so let's take it out for a function that returns just that
+        fetch(url,getPostRequestObj(JSON.stringify(createNote(lnid, text, lorder))))
+        .then(response => {
             const serverConnectionStatus = serverConnected(response)
             if (serverConnectionStatus.connected) {
                 return response.json()
@@ -158,32 +174,26 @@ function useNoteList() {
             }
         })
         .then(d =>
-            {
-                if(!Boolean(json['success'])) {
-                    console.log("Add operation was not sucessfull.")
-                    console.log(json)
-                    connectSuccess = false;
-                }
-            })
-            .catch(err => console.log(err))
-            .finally(() => {
-                setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
-            })
+        {
+            if(!Boolean(json['success'])) {
+                console.log("Add operation was not sucessfull.")
+                console.log(json)
+                connectSuccess = false;
+            }
+        })
+        .catch(err => console.log(err))
+        .finally(() => {
+            setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
+        })
             
-            setNoteList([...ls, createNote(lnid, text, lorder)]);
+        setNoteList([...ls, createNote(lnid, text, lorder)]);
     }
     
     function deleteNote(id) {
         const remove_path = "/api/delete"
         const url = source_url + remove_path
         let connectSuccess = false;
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json; charset=utf-8"
-            },
-            body: JSON.stringify({"id":id}),
-        }).then(response => {
+        fetch(url, getPostRequestObj(JSON.stringify({"id":id}))).then(response => {
             const serverConnectionStatus = serverConnected(response)
             if (serverConnectionStatus.connected) {
                 return response.json()
@@ -211,13 +221,7 @@ function useNoteList() {
         const edit_path = "/api/edit"
         const url = source_url + edit_path
         let connectSuccess = false;
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(editedNote)
-        })
+        fetch(url,getPostRequestObj(JSON.stringify(editedNote)))
          .then(response => {
             const serverConnectionStatus = serverConnected(response)
             if (serverConnectionStatus.connected) {
@@ -259,13 +263,7 @@ function useNoteList() {
         const edit_path = "/api/order"
         const url = source_url + edit_path
         let connectSuccess = false;
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({notes:updatedNotes})
-        })
+        fetch(url, getPostRequestObj(JSON.stringify({notes:updatedNotes})))
          .then(response => {
             if(response.ok){
                 connectSuccess = true; 
