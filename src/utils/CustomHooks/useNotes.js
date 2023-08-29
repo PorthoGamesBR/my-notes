@@ -214,14 +214,17 @@ function useNoteList() {
         .then(json =>
             {
                 if(!Boolean(json['success'])) {
-                console.log("Delete operation was not sucessfull.")
-                console.log(json)
-                connectSuccess = false;
+                    console.log("Delete operation was not sucessfull.")
+                    console.log(json)
+                    connectSuccess = false;
+                }
             }
-        }
-        ).catch(err => console.log(err))
+        )
+        .catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
         
+        // This one doesnt need that much refactor since this filter function does most of the job
+        // And the other repetitive parts where refactor with the other functions
         setNoteList(ls.filter((n) => n.id !== id));
     }
     
