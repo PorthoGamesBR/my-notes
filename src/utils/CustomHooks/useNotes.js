@@ -151,8 +151,8 @@ function useNoteList() {
         // To add a note this function needs three things: the note id, the note text and the note order
         // The text comes to the function as an argument, while the other two thing needs to come from inside the state
         // The last note id already comes from a function, and there is no secret for last order. It's just the lenght if the list is nicely formated.
-        const lnid = getLastNoteId(ls)+1;
-        const lorder = ls.length
+        // But since the note data dont change in the rest of the function, i could create the note right here
+        const newNote = createNote(id=getLastNoteId(ls)+1, text=text, order=ls.length) 
 
         // This here is the same as other functions. Perhaps this i can refactor since every other function does the same
         const data_path = "/api/add"
@@ -163,7 +163,7 @@ function useNoteList() {
         // The header is basically the same for each fetch, and the problem is exactly that since i write each one individually,
         // I can end up with different headers for each one
         // The header is a JSON-formated object, so let's take it out for a function that returns just that
-        fetch(url,getPostRequestObj(JSON.stringify(createNote(lnid, text, lorder))))
+        fetch(url,getPostRequestObj(JSON.stringify(newNote)))
         .then(response => {
             const serverConnectionStatus = serverConnected(response)
             if (serverConnectionStatus.connected) {
@@ -186,7 +186,7 @@ function useNoteList() {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
         })
             
-        setNoteList([...ls, createNote(lnid, text, lorder)]);
+        setNoteList([...ls, newNote]);
     }
     
     function deleteNote(id) {
