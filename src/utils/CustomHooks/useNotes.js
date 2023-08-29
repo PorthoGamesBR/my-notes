@@ -10,7 +10,7 @@ function createNote(id,text, order) {
 
 function checkPartsOfObject(obj, parts) {
     const toReturn = {hasParts:true, missingPart:""}
-    for (const p in parts) {
+    for (const p of parts) {
         if (!(p in obj)) {
             toReturn.hasParts = false
             toReturn.missingPart = p
@@ -84,7 +84,7 @@ function getPostRequestObj(reqBody) {
 function serverConnected(response) {
     const toReturn = {connected:false, error:""}
     if (response.ok) {
-        toReturn.connection = true;
+        toReturn.connected = true;
     }
     else {
         if (response.status === "NO_RESPONSE_CODE") {
