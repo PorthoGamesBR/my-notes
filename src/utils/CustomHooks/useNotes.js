@@ -8,30 +8,39 @@ function createNote(id,text, order) {
     return {id:id, text:text, order:order}
 }
 
+function checkPartsOfObject(obj, parts) {
+    const toReturn = {hasParts:true, missingPart:""}
+    for (p in parts) {
+        if (!(p in obj)) {
+            toReturn.hasParts = false
+            toReturn.missingPart = p
+            return toReturn
+        }
+    }
+    return toReturn
+}
+
 function isNote(obj) {
     // Checks if obj contains the data to be considered a note, return true if it is and false + error message if is not;
     let [isNote, message] = [true, ""];
 
-    if (!("id" in obj) || !("text" in obj) || !("order" in obj))
-    {
-        message="Not found Id or Text or Order inside object. Is not a note"
-        isNote=false
+    function setErrorMessage(err) {
+        isNote = false
+        message = err + ". Is not a note"
     }
-    else if (!Number.isInteger(obj.id))
-    {
-        message="Id isn't numeric. Is not a note"
-        isNote=false
+
+    const checkParts = checkPartsOfObject(obj, ["id","text","order"])
+    if (!checkParts.hasParts)
+        setErrorMessage("Not found " + checkParts.missingPart + " inside object") 
+    else {
+        if (!Number.isInteger(obj.id))
+            setErrorMessage("Id isn't numeric")
+        else if (!Number.isInteger(obj.order))
+            setErrorMessage("Order isn't numeric")
+        else if (!typeof obj.text === 'string')
+            setErrorMessage("Text isn't a pure string")
     }
-    else if (!Number.isInteger(obj.order))
-    {
-        message="Order isn't numeric. Is not a note"
-        isNote=false
-    }
-    else if (!typeof obj.text === 'string')
-    {
-        message="Text isnt a pure string. Is not a note"
-        isNote=false
-    }
+    
     return [isNote, message]
 }
 
@@ -316,7 +325,7 @@ function useNoteList() {
             }
             return n;
         })
-        
+
         setNoteList(newData);
     }
 
