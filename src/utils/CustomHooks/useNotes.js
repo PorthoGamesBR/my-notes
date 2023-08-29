@@ -10,7 +10,7 @@ function createNote(id,text, order) {
 
 function checkPartsOfObject(obj, parts) {
     const toReturn = {hasParts:true, missingPart:""}
-    for (p in parts) {
+    for (const p in parts) {
         if (!(p in obj)) {
             toReturn.hasParts = false
             toReturn.missingPart = p
@@ -146,7 +146,7 @@ function useNoteList() {
                 return response.json()
             }
             else {
-                return Promisse.reject(new Error(serverConnectionStatus.error))
+                return Promise.reject(new Error(serverConnectionStatus.error))
             }
         })
         .then(data => {
@@ -175,7 +175,7 @@ function useNoteList() {
         // The text comes to the function as an argument, while the other two thing needs to come from inside the state
         // The last note id already comes from a function, and there is no secret for last order. It's just the lenght if the list is nicely formated.
         // But since the note data dont change in the rest of the function, i could create the note right here
-        const newNote = createNote(id=getLastNoteId(ls)+1, text=text, order=ls.length)
+        const newNote = createNote(getLastNoteId(ls)+1, text, ls.length)
 
         // This here is the same as other functions. Perhaps this i can refactor since every other function does the same
         const data_path = "/api/add"
@@ -193,7 +193,7 @@ function useNoteList() {
                 return response.json()
             }
             else {
-                return Promisse.reject(new Error(serverConnectionStatus.error))
+                return Promise.reject(new Error(serverConnectionStatus.error))
             }
         })
         .then(json => connectSuccess = dataChangeSuccess(json, "Add"))
@@ -224,7 +224,7 @@ function useNoteList() {
                 return response.json()
             }
             else {
-                return Promisse.reject(new Error(serverConnectionStatus.error))
+                return Promise.reject(new Error(serverConnectionStatus.error))
             }
         })
         .then(json => connectSuccess = dataChangeSuccess(json, "Delete"))
@@ -256,7 +256,7 @@ function useNoteList() {
                 return response.json()
             }
             else {
-                return Promisse.reject(new Error(serverConnectionStatus.error))
+                return Promise.reject(new Error(serverConnectionStatus.error))
             }
         })
         // So this logic repeats three times, with the only change being the error message. Let's take this out to it's own function
