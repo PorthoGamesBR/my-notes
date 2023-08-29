@@ -158,6 +158,7 @@ function useNoteList() {
                 const [isnote, err] = isNote(d);
                 if (!isnote) return Promise.reject(new Error(err));
             }
+            connectSuccess = true;
             setNoteList(data);
         })
         .catch(error => {
@@ -196,7 +197,7 @@ function useNoteList() {
                 return Promise.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(json => connectSuccess = dataChangeSuccess(json, "Add"))
+        .then(json => {connectSuccess = dataChangeSuccess(json, "Add")})
         .catch(err => console.log(err))
         .finally(() => {
             setConnection({successful:connectSuccess, lastOperation: () => addNote(text)});
@@ -227,7 +228,7 @@ function useNoteList() {
                 return Promise.reject(new Error(serverConnectionStatus.error))
             }
         })
-        .then(json => connectSuccess = dataChangeSuccess(json, "Delete"))
+        .then(json => {connectSuccess = dataChangeSuccess(json, "Delete")})
         .catch(err => console.log(err))
         .finally(() => {setConnection({successful:connectSuccess, lastOperation:() => deleteNote(id)});})
 
@@ -261,7 +262,7 @@ function useNoteList() {
         })
         // So this logic repeats three times, with the only change being the error message. Let's take this out to it's own function
         // Now that it's in its own function, all the other fetch calls are easier to read
-        .then(json => connectSuccess = dataChangeSuccess(json, "Edit"))
+        .then(json => {connectSuccess = dataChangeSuccess(json, "Edit")})
         .catch(error =>
         {
             console.log(error.toString())
