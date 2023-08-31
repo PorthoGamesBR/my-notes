@@ -1,4 +1,4 @@
-import React from "react"
+import {React, useState} from "react"
 import "./Note.css"
 
 import TextArea from "../TextArea"
@@ -12,9 +12,24 @@ const textAreaStyle = {
 }
 
 function Note({noteData, onEdit}) {
+    const [isSaved, setIsSaved] = useState(true)
+    
+    function saveNote(noteData) {
+        setIsSaved(true);
+        onEdit(noteData);
+    }
+
+    function notEditedStyle(style)
+    {
+        return {
+            ...style,
+            "color": (isSaved ? "" : "grey")
+        }
+    }
+    
     return (
-        <div className="note">
-            <TextArea initValue={noteData.text} onSubmit={(t) => onEdit({...noteData, text:t})} style={textAreaStyle}/>
+        <div className={"note"}>
+            <TextArea initValue={noteData.text} onSubmit={(t) => saveNote({...noteData, text:t})} onValueChange={() => setIsSaved(false)} style={notEditedStyle(textAreaStyle)}/>
         </div>
     );
 }
