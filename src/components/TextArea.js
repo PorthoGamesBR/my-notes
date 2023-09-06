@@ -1,12 +1,13 @@
 import {React, useState, useEffect, useRef} from "react"
 
-function TextArea({initValue, onSubmit, style}){
+function TextArea({initValue, onSubmit, onValueChange, style}){
     const [textInput, setTextInput] = useState("");
     useEffect(()=>{setTextInput(initValue)},[initValue]);
 
     const textAreaElm = useRef();
 
     function onKeyDown(e) {
+        onValueChange(textInput)
         if(e.keyCode === 13 && e.shiftKey === false){
             e.preventDefault();
             onSubmit(textInput);
